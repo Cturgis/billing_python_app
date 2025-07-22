@@ -56,6 +56,15 @@
                 </textarea>
                 {{ form.address.errors }}
             </div>
+
+            <div style="margin-bottom: 1rem; display: flex; align-items: center;">
+                {% if not customer %}
+                <input type="checkbox" name="is_admin" id="id_is_admin" style="margin-right: 0.5rem;" {% if form.is_admin.value %}checked{% endif %}>
+                <label for="id_is_admin" class="form-label" style="margin: 0;">Utilisateur admin</label>
+                {{ form.is_admin.errors }}
+                {% endif %}
+            </div>
+
             <button type="submit" class="btn btn-primary"
                     style="width: 100%; background: #667eea; color: #fff; border: none; border-radius: 5px; padding: 0.75rem; font-weight: bold;">
                 Enregistrer

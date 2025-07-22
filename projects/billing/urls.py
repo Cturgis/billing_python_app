@@ -24,4 +24,10 @@ urlpatterns = [
     path('produits/<int:pk>/decrement/', product_views.product_decrement, name='product_decrement'),
     path('produits/<int:pk>/update-qtty/', product_views.product_update_qtty, name='product_update_qtty'),
     path('produits/<int:pk>/update-price/', product_views.product_update_price, name='product_update_price'),
+
+    # Customer dashboard URLs
+    path('customer/dashboard/', customer_views.customer_dashboard, name='customer_dashboard'),
+    path('customer/boutique/', customer_views.shop_view, name='shop'),
+    path('customer/mes-factures/', customer_views.my_invoice_view, name='my_invoice'),
+    path('customer/buy/<int:product_id>/', customer_views.buy_product_view, name='buy_product'),
 ]

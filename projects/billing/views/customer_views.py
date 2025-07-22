@@ -2,12 +2,17 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from billing.models.Customer import Customer
+from billing.models.Product import Product
+from billing.models.Invoice import Invoice, InvoiceItem
 from billing.forms.customer_form import CustomerForm
+from django.utils import timezone
+
 
 @login_required
 def customer_list(request):
     customers = Customer.objects.select_related('user').all()
     return render(request, 'billing/customer/customer_list.html', {'customers': customers})
+
 
 @login_required
 def customer_create(request):
@@ -20,6 +25,7 @@ def customer_create(request):
     else:
         form = CustomerForm()
     return render(request, 'billing/customer/customer_form.html', {'form': form})
+
 
 @login_required
 def customer_update(request, pk):
@@ -34,6 +40,7 @@ def customer_update(request, pk):
         form = CustomerForm(instance=customer)
     return render(request, 'billing/customer/customer_form.html', {'form': form, 'customer': customer})
 
+
 @login_required
 def customer_delete(request, pk):
     customer = get_object_or_404(Customer, pk=pk)
@@ -43,3 +50,43 @@ def customer_delete(request, pk):
         return redirect('billing:customer_list')
     return render(request, 'billing/customer/customer_confirm_delete.html', {'customer': customer})
 
+
+# testing
+@login_required
+def customer_dashboard(request):
+    return render(request, 'billing/customer/customer_dashboard.html')
+
+
+@login_required
+def shop_view(request):
+    products = Product.objects.all()
+    return render(request, 'billing/customer/shop.html', {'products': products})
+
+
+@login_required
+def my_invoice_view(request):
+    customer = get_object_or_404(Customer, user=request.user)
+    invoices = Invoice.objects.filter(customer=customer).order_by('-created_at')
+    return render(request, 'billing/customer/my_invoice.html', {'invoices': invoices})
+
+
+@login_required
+def buy_product_view(request, product_id):
+    customer = get_object_or_404(Customer, user=request.user)
+    product = get_object_or_404(Product, pk=product_id)
+    try:
+        qtty = int(request.POST.get('qtty', 1))
+    except (TypeError, ValueError):
+        qtty = 1
+    if qtty < 1:
+        messages.error(request, "Quantité invalide.")
+        return redirect('billing:shop')
+
+    today = timezone.now().date()
+    invoice, created = Invoice.objects.get_or_create(customer=customer, created_at__date=today, defaults={})
+
+    item, item_created = InvoiceItem.objects.get_or_create(invoice=invoice, product=product, defaults={'quantity': 0})
+    item.quantity += qtty
+    item.save()
+    messages.success(request, f"{qtty} x {product.name} ajouté à votre facture.")
+    return redirect('billing:shop')

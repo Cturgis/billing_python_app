@@ -7,7 +7,12 @@ from billing.forms.auth_forms import LoginForm
 
 def login_view(request):
     if request.user.is_authenticated:
-        return redirect('billing:dashboard')
+        if request.user.groups.filter(name='admin').exists():
+            return redirect('billing:dashboard')
+        elif request.user.groups.filter(name='customer').exists():
+            return redirect('billing:customer_dashboard')
+        else:
+            return redirect('billing:logout')
 
     form = LoginForm(request.POST or None)
     if request.method == 'POST':
@@ -18,8 +23,13 @@ def login_view(request):
             if user is not None:
                 login(request, user)
                 messages.success(request, f'Bienvenue {user.get_username()} !')
-                next_url = request.GET.get('next', 'billing:dashboard')
-                return redirect(next_url)
+
+                if user.groups.filter(name='admin').exists():
+                    return redirect('billing:dashboard')
+                elif user.groups.filter(name='customer').exists():
+                    return redirect('billing:customer_dashboard')
+                else:
+                    return redirect('billing:logout')
             else:
                 messages.error(request, 'Nom d\'utilisateur ou mot de passe incorrect.')
         else:
