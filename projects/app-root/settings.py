@@ -1,4 +1,5 @@
 from pathlib import Path
+import os
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -62,7 +63,7 @@ DATABASES = {
         'NAME': 'billing_db',
         'USER': 'billing_db_admin',
         'PASSWORD': 'billing_db_admin_password',
-        'HOST': 'localhost',
+        'HOST': os.environ.get('POSTGRES_HOST', 'localhost'),
         'PORT': '5432',
         'Options': {
             'connect_timeout': 10,
