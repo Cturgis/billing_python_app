@@ -1,33 +1,33 @@
 {% extends 'billing/dashboard.html' %}
 {% block content %}
-<div style="min-height: 80vh; display: flex; align-items: center; justify-content: center; background: #f8f9fa;">
-    <div style="background: #fff; border-radius: 10px; box-shadow: 0 2px 10px rgba(0,0,0,0.08); padding: 2rem; min-width: 350px; max-width: 900px; width: 100%;">
-        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem;">
-            <h2 style="margin: 0;">Clients</h2>
+<div class="customer-list-container">
+    <div class="customer-list-card">
+        <div class="customer-list-header">
+            <h2>Clients</h2>
             <a href="{% url 'billing:customer_create' %}" style="background: #667eea; color: #fff; border: none; border-radius: 5px; padding: 0.5rem 1.2rem; text-decoration: none; font-weight: bold;">Nouveau client</a>
         </div>
-        <table style="width: 100%; border-collapse: collapse;">
+        <table class="customer-list-table">
             <thead>
-                <tr style="background: #f1f3f6;">
-                    <th style="padding: 0.75rem; text-align: left; border-bottom: 2px solid #e5e7eb;">Nom</th>
-                    <th style="padding: 0.75rem; text-align: left; border-bottom: 2px solid #e5e7eb;">Email</th>
-                    <th style="padding: 0.75rem; text-align: left; border-bottom: 2px solid #e5e7eb;">Adresse</th>
-                    <th style="padding: 0.75rem; text-align: left; border-bottom: 2px solid #e5e7eb;">Actions</th>
+                <tr>
+                    <th>Nom</th>
+                    <th>Email</th>
+                    <th>Adresse</th>
+                    <th>Actions</th>
                 </tr>
             </thead>
             <tbody>
                 {% for customer in customers %}
-                <tr style="border-bottom: 1px solid #f1f3f6;">
-                    <td style="padding: 0.75rem;">{{ customer.user.get_username }}</td>
-                    <td style="padding: 0.75rem;">{{ customer.user.email }}</td>
-                    <td style="padding: 0.75rem;">{{ customer.address|linebreaksbr }}</td>
-                    <td style="padding: 0.75rem;">
-                        <a href="{% url 'billing:customer_update' customer.pk %}" style="background: #ffc107; color: #212529; border: none; border-radius: 5px; padding: 0.3rem 0.8rem; text-decoration: none; font-size: 0.95rem; margin-right: 0.5rem;">Modifier</a>
-                        <a href="{% url 'billing:customer_delete' customer.pk %}" style="background: #dc3545; color: #fff; border: none; border-radius: 5px; padding: 0.3rem 0.8rem; text-decoration: none; font-size: 0.95rem;">Supprimer</a>
+                <tr>
+                    <td>{{ customer.user.get_username }}</td>
+                    <td>{{ customer.user.email }}</td>
+                    <td>{{ customer.address|linebreaksbr }}</td>
+                    <td>
+                        <a href="{% url 'billing:customer_update' customer.pk %}" class="customer-list-action-btn modify">Modifier</a>
+                        <a href="{% url 'billing:customer_delete' customer.pk %}" class="customer-list-action-btn delete">Supprimer</a>
                     </td>
                 </tr>
                 {% empty %}
-                <tr><td colspan="4" style="padding: 1.5rem; text-align: center; color: #888;">Aucun client trouvé.</td></tr>
+                <tr><td colspan="4" class="customer-list-empty">Aucun client trouvé.</td></tr>
                 {% endfor %}
             </tbody>
         </table>

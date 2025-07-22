@@ -1,0 +1,77 @@
+/* Container for centering the form */
+.customer-form-outer-container {
+    min-height: 80vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* Card style for the form */
+.customer-form-card {
+    background: #fff;
+    border-radius: 10px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.08);
+    padding: 2rem;
+    min-width: 350px;
+    max-width: 400px;
+    width: 100%;
+}
+
+.customer-form-title {
+    text-align: center;
+    margin-bottom: 1.5rem;
+}
+
+.customer-form-group {
+    margin-bottom: 1rem;
+}
+
+.customer-form-label {
+    display: block;
+    margin-bottom: 0.5rem;
+}
+
+.customer-form-input, .customer-form-textarea {
+    width: 100%;
+    padding: 0.5rem;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+}
+
+.customer-form-error {
+    color: #fa0018;
+}
+
+.customer-form-checkbox-group {
+    margin-bottom: 1rem;
+    display: flex;
+    align-items: center;
+}
+
+.customer-form-checkbox {
+    margin-right: 0.5rem;
+}
+
+.customer-form-checkbox-label {
+    margin: 0;
+}
+
+.customer-form-submit-btn {
+    width: 100%;
+    background: #667eea;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    padding: 0.75rem;
+    font-weight: bold;
+}
+
+.customer-form-cancel-link {
+    width: 100%;
+    display: block;
+    text-align: center;
+    margin-top: 1rem;
+    color: #667eea;
+    text-decoration: none;
+}
+

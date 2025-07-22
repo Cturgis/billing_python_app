@@ -1,76 +1,64 @@
 {% extends 'billing/dashboard.html' %}
 {% block content %}
-<div style="min-height: 80vh; display: flex; align-items: center; justify-content: center;">
-    <div style="background: #fff; border-radius: 10px; box-shadow: 0 2px 10px rgba(0,0,0,0.08); padding: 2rem; min-width: 350px; max-width: 400px; width: 100%;">
-        <h2 style="text-align: center; margin-bottom: 1.5rem;">{% if customer %}Modifier le client{% else %}Nouveau
+<div class="customer-form-outer-container">
+    <div class="customer-form-card">
+        <h2 class="customer-form-title">{% if customer %}Modifier le client{% else %}Nouveau
             client{% endif %}</h2>
         <form method="post">
             {% csrf_token %}
             {{ form.non_field_errors }}
-            <div style="margin-bottom: 1rem;">
+            <div class="customer-form-group">
                 <label
                         for="id_username"
-                        class="form-label"
-                        style="display: block; margin-bottom: 0.5rem;">
+                        class="form-label customer-form-label">
                     Nom d'utilisateur
                 </label>
                 <input
-                        type="text" name="username" id="id_username" class="form-control"
-                        style="width: 100%; padding: 0.5rem; border-radius: 5px; border: 1px solid #ccc;"
+                        type="text" name="username" id="id_username" class="form-control customer-form-input"
                         value="{{ form.username.value|default:'' }}">
-                <span style="color: #fa0018">{{ form.username.errors }}</span>
+                <span class="customer-form-error">{{ form.username.errors }}</span>
             </div>
 
-            <div style="margin-bottom: 1rem;">
+            <div class="customer-form-group">
                 <label
                         for="id_email"
-                        class="form-label"
-                        style="display: block; margin-bottom: 0.5rem;">
+                        class="form-label customer-form-label">
                     Email
                 </label>
-                <input type="email" name="email" id="id_email" class="form-control"
-                       style="width: 100%; padding: 0.5rem; border-radius: 5px; border: 1px solid #ccc;"
+                <input type="email" name="email" id="id_email" class="form-control customer-form-input"
                        value="{{ form.email.value|default:'' }}">
-                <span style="color: #fa0018">{{ form.email.errors }}</span>
+                <span class="customer-form-error">{{ form.email.errors }}</span>
             </div>
 
-            <div style="margin-bottom: 1rem;">
+            <div class="customer-form-group">
                 <label
-                        for="id_password" class="form-label"
-                        style="display: block; margin-bottom: 0.5rem;">
+                        for="id_password" class="form-label customer-form-label">
                     Mot de passe
                 </label>
-                <input type="password" name="password" id="id_password" class="form-control"
-                       style="width: 100%; padding: 0.5rem; border-radius: 5px; border: 1px solid #ccc;">
-                <span style="color: #fa0018">{{ form.password.errors }}</span>
+                <input type="password" name="password" id="id_password" class="form-control customer-form-input">
+                <span class="customer-form-error">{{ form.password.errors }}</span>
             </div>
 
-            <div style="margin-bottom: 1rem;">
-                <label for="id_address" class="form-label"
-                       style="display: block; margin-bottom: 0.5rem;">
+            <div class="customer-form-group">
+                <label for="id_address" class="form-label customer-form-label">
                     Adresse
                 </label>
-                <textarea name="address" id="id_address" class="form-control"
-                          style="width: 100%; padding: 0.5rem; border-radius: 5px; border: 1px solid #ccc;" rows="3">
-{{ form.address.value|default:'' }}
-                </textarea>
+                <textarea name="address" id="id_address" class="form-control customer-form-textarea" rows="3">{{ form.address.value|default:'' }}</textarea>
                 {{ form.address.errors }}
             </div>
 
-            <div style="margin-bottom: 1rem; display: flex; align-items: center;">
+            <div class="customer-form-checkbox-group">
                 {% if not customer %}
-                <input type="checkbox" name="is_admin" id="id_is_admin" style="margin-right: 0.5rem;" {% if form.is_admin.value %}checked{% endif %}>
-                <label for="id_is_admin" class="form-label" style="margin: 0;">Utilisateur admin</label>
+                <input type="checkbox" name="is_admin" id="id_is_admin" class="customer-form-checkbox" {% if form.is_admin.value %}checked{% endif %}>
+                <label for="id_is_admin" class="form-label customer-form-checkbox-label">Utilisateur admin</label>
                 {{ form.is_admin.errors }}
                 {% endif %}
             </div>
 
-            <button type="submit" class="btn btn-primary"
-                    style="width: 100%; background: #667eea; color: #fff; border: none; border-radius: 5px; padding: 0.75rem; font-weight: bold;">
+            <button type="submit" class="btn btn-primary customer-form-submit-btn">
                 Enregistrer
             </button>
-            <a href="{% url 'billing:customer_list' %}" class="btn btn-link"
-               style="width: 100%; display: block; text-align: center; margin-top: 1rem; color: #667eea; text-decoration: none;">Annuler</a>
+            <a href="{% url 'billing:customer_list' %}" class="btn btn-link customer-form-cancel-link">Annuler</a>
         </form>
     </div>
 </div>

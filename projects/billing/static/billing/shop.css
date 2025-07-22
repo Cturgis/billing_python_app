@@ -1,0 +1,54 @@
+.shop-container {
+    max-width: 900px;
+    margin: 40px auto;
+    background: #fff;
+    border-radius: 10px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.08);
+    padding: 2rem;
+}
+.shop-container h2 {
+    margin-bottom: 1.5rem;
+}
+.shop-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 2rem;
+}
+.shop-table th {
+    padding: 0.75rem;
+    text-align: left;
+    background: #f1f3f6;
+}
+.shop-table td {
+    padding: 0.75rem;
+}
+.shop-table tr {
+    border-bottom: 1px solid #f1f3f6;
+}
+.shop-table tr:last-child {
+    border-bottom: none;
+}
+.shop-qtty-input {
+    width: 60px;
+    padding: 0.3rem;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    text-align: center;
+}
+.shop-submit {
+    background: #667eea;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    padding: 0.7rem 2rem;
+    font-weight: bold;
+    font-size: 1.1rem;
+    margin-top: 2rem;
+    float: right;
+}
+.shop-empty {
+    padding: 1.5rem;
+    text-align: center;
+    color: #888;
+}
+
