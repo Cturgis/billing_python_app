@@ -1,0 +1,38 @@
+{% extends 'billing/dashboard.html' %}
+{% block content %}
+<div style="max-width: 900px; margin: 40px auto; background: #fff; border-radius: 10px; box-shadow: 0 2px 10px rgba(0,0,0,0.08); padding: 2rem;">
+    <h2>Mes factures</h2>
+    <table style="width: 100%; border-collapse: collapse; margin-top: 2rem;">
+        <thead>
+            <tr style="background: #f1f3f6;">
+                <th style="padding: 0.75rem; text-align: left;">#</th>
+                <th style="padding: 0.75rem; text-align: left;">Date</th>
+                <th style="padding: 0.75rem; text-align: left;">Total</th>
+                <th style="padding: 0.75rem; text-align: left;">Payée</th>
+                <th style="padding: 0.75rem; text-align: left;">Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for invoice in invoices %}
+            <tr style="border-bottom: 1px solid #f1f3f6;">
+                <td style="padding: 0.75rem;">{{ invoice.pk }}</td>
+                <td style="padding: 0.75rem;">{{ invoice.created_at|date:"d/m/Y H:i" }}</td>
+                <td style="padding: 0.75rem;">{{ invoice.total_amount }} €</td>
+                <td style="padding: 0.75rem;">
+                    {% if invoice.paid %}
+                        <span style="display:inline-block;width:16px;height:16px;background:#4caf50;border-radius:50%;"></span>
+                    {% else %}
+                        <span style="display:inline-block;width:16px;height:16px;background:#f44336;border-radius:50%;"></span>
+                    {% endif %}
+                </td>
+                <td style="padding: 0.75rem;">
+                    <a href="" style="background: #667eea; color: #fff; border: none; border-radius: 5px; padding: 0.3rem 1rem; text-decoration: none; font-weight: bold;">Détails</a>
+                </td>
+            </tr>
+            {% empty %}
+            <tr><td colspan="5" style="padding: 1.5rem; text-align: center; color: #888;">Aucune facture trouvée.</td></tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}

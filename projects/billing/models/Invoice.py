@@ -18,11 +18,12 @@ class Invoice(models.Model):
         ordering = ['-created_at']
 
     def __str__(self):
-        return f"Facture #{self.pk} - {self.customer} - {self.total_amount()}€"
+        return f"Facture #{self.pk} - {self.customer} - {self.total_amount}€"
 
     def get_absolute_url(self):
         return reverse('billing:invoice_detail', kwargs={'pk': self.pk})
 
+    @property
     def total_amount(self):
         total = 0
         for item in self.invoiceitem_set.all():

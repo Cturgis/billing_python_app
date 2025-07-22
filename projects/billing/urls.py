@@ -29,5 +29,4 @@ urlpatterns = [
     path('customer/dashboard/', customer_views.customer_dashboard, name='customer_dashboard'),
     path('customer/boutique/', customer_views.shop_view, name='customer_shop'),
     path('customer/mes-factures/', customer_views.my_invoice_view, name='customer_invoice'),
-    path('customer/buy/<int:product_id>/', customer_views.buy_product_view, name='buy_product'),
 ]
