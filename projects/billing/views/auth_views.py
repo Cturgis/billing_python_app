@@ -40,7 +40,7 @@ def login_view(request):
 
 @login_required
 def logout_view(request):
-    username = request.user.get_full_name() or request.user.username
+    username = request.user.get_username() or request.user.username
     logout(request)
     messages.success(request, f'Au revoir {username} ! Vous êtes maintenant déconnecté.')
     return redirect('billing:login')
@@ -48,6 +48,8 @@ def logout_view(request):
 
 @login_required
 def dashboard(request):
+    if not request.user.groups.filter(name='admin').exists():
+        return redirect('billing:customer_dashboard')
     return render(request, 'billing/dashboard.html', {
         'user': request.user
     })

@@ -1,11 +1,21 @@
 {% extends 'billing/dashboard.html' %}
 {% block content %}
-<div style="max-width: 500px; margin: 40px auto; background: #fff; border-radius: 10px; box-shadow: 0 2px 10px rgba(0,0,0,0.08); padding: 2rem; text-align: center;">
-    <h2>Bienvenue sur votre espace client</h2>
-    <div style="margin-top: 2rem; display: flex; flex-direction: column; gap: 1.5rem;">
-        <a href="{% url 'billing:shop' %}" style="background: #667eea; color: #fff; padding: 1rem; border-radius: 8px; text-decoration: none; font-weight: bold;">Boutique</a>
-        <a href="{% url 'billing:my_invoice' %}" style="background: #764ba2; color: #fff; padding: 1rem; border-radius: 8px; text-decoration: none; font-weight: bold;">Mes factures</a>
+<div class="container">
+    <div class="welcome-card">
+        <h2>Bienvenue sur votre espace client</h2>
+        <p>Accédez à la boutique ou consultez vos factures.</p>
+    </div>
+    <div class="quick-actions">
+        <a href="{% url 'billing:shop' %}" class="action-card" style="text-decoration: none; color: inherit;">
+            <div class="icon">🛒</div>
+            <h3>Boutique</h3>
+            <p>Voir et acheter des produits</p>
+        </a>
+        <a href="{% url 'billing:my_invoice' %}" class="action-card" style="text-decoration: none; color: inherit;">
+            <div class="icon">🧾</div>
+            <h3>Mes factures</h3>
+            <p>Consulter vos factures</p>
+        </a>
     </div>
 </div>
 {% endblock %}
-
