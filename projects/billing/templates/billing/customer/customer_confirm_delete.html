@@ -1,0 +1,15 @@
+{% extends 'billing/dashboard.html' %}
+{% block content %}
+<div class="container mt-4">
+    <h2>Supprimer le client</h2>
+    <div class="alert alert-warning">
+        Êtes-vous sûr de vouloir supprimer le client <strong>{{ customer.user.get_full_name }}</strong> ? Cette action est irréversible.
+    </div>
+    <form method="post">
+        {% csrf_token %}
+        <button type="submit" class="btn btn-danger">Confirmer la suppression</button>
+        <a href="{% url 'billing:customer_list' %}" class="btn btn-secondary">Annuler</a>
+    </form>
+</div>
+{% endblock %}
+

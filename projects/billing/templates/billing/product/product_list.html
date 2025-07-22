@@ -1,0 +1,88 @@
+{% extends 'billing/dashboard.html' %}
+{% block content %}
+<script>
+  function saveScrollPosition() {
+    sessionStorage.setItem('productListScrollY', window.scrollY);
+  }
+
+  window.addEventListener('DOMContentLoaded', function () {
+    const y = sessionStorage.getItem('productListScrollY');
+    if (y !== null) window.scrollTo(0, parseInt(y));
+  });
+</script>
+<div style="min-height: 80vh; display: flex; align-items: center; justify-content: center; background: #f8f9fa;">
+    <div style="background: #fff; border-radius: 10px; box-shadow: 0 2px 10px rgba(0,0,0,0.08); padding: 2rem; min-width: 350px; max-width: 900px; width: 100%;">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem;">
+            <h2 style="margin: 0;">Produits</h2>
+            <a href="{% url 'billing:product_create' %}"
+               style="background: #667eea; color: #fff; border: none; border-radius: 5px; padding: 0.5rem 1.2rem; text-decoration: none; font-weight: bold;">Nouveau
+                produit</a>
+        </div>
+        <table style="width: 100%; border-collapse: collapse;">
+            <thead>
+            <tr style="background: #f1f3f6;">
+                <th style="padding: 0.75rem; text-align: left; border-bottom: 2px solid #e5e7eb;">Nom</th>
+                <th style="padding: 0.75rem; text-align: left; border-bottom: 2px solid #e5e7eb;">Prix</th>
+                <th style="padding: 0.75rem; text-align: left; border-bottom: 2px solid #e5e7eb;">Quantité</th>
+                <th style="padding: 0.75rem; text-align: left; border-bottom: 2px solid #e5e7eb;">Actions</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for product in products %}
+            <tr style="border-bottom: 1px solid #f1f3f6;">
+                <td style="padding: 0.75rem;">{{ product.name }}</td>
+                <td style="padding: 0.75rem;">
+                    {% if edit_id and product.pk|stringformat:'s' == edit_id %}
+                    <form method="post" action="{% url 'billing:product_update_price' product.pk %}"
+                          style="display:inline;" onsubmit="saveScrollPosition()">
+                        {% csrf_token %}
+                        <input type="number" name="price" min="0" step="0.01" value="{{ product.price }}"
+                               style="width: 70px; padding: 0.3rem; border-radius: 5px; border: 1px solid #ccc; text-align: center;">
+                        <button type="submit"
+                                style="background: #667eea; color: #fff; border: none; border-radius: 5px; padding: 0.3rem 0.8rem; font-weight: bold; margin-left: 0.5rem;">
+                            Mettre à jour
+                        </button>
+                    </form>
+                    {% else %}
+                    {{ product.price }} €
+                    {% endif %}
+                </td>
+                <td style="padding: 0.75rem;">
+                    {% if edit_id and product.pk|stringformat:'s' == edit_id %}
+                    <form method="post" action="{% url 'billing:product_update_qtty' product.pk %}"
+                          style="display:inline;" onsubmit="saveScrollPosition()">
+                        {% csrf_token %}
+                        <input type="number" name="qtty" min="0" value="{{ product.qtty }}"
+                               style="width: 70px; padding: 0.3rem; border-radius: 5px; border: 1px solid #ccc; text-align: center;">
+                        <button type="submit"
+                                style="background: #667eea; color: #fff; border: none; border-radius: 5px; padding: 0.3rem 0.8rem; font-weight: bold; margin-left: 0.5rem;">
+                            Mettre à jour
+                        </button>
+                    </form>
+                    {% else %}
+                    {{ product.qtty }}
+                    {% endif %}
+                </td>
+                <td style="padding: 0.75rem;">
+                    {% if edit_id and product.pk|stringformat:'s' == edit_id %}
+                    <a href="{% url 'billing:product_list' %}"
+                       style="background: #6c757d; color: #fff; border: none; border-radius: 5px; padding: 0.3rem 0.8rem; text-decoration: none; font-size: 0.95rem; margin-right: 0.5rem;">Annuler</a>
+                    {% else %}
+                    <a href="{% url 'billing:product_list' %}?edit_id={{ product.pk }}"
+                       style="background: #ffc107; color: #212529; border: none; border-radius: 5px; padding: 0.3rem 0.8rem; text-decoration: none; font-size: 0.95rem; margin-right: 0.5rem;"
+                       onclick="saveScrollPosition()">Modifier</a>
+                    {% endif %}
+                    <a href="{% url 'billing:product_delete' product.pk %}"
+                       style="background: #dc3545; color: #fff; border: none; border-radius: 5px; padding: 0.3rem 0.8rem; text-decoration: none; font-size: 0.95rem;">Supprimer</a>
+                </td>
+            </tr>
+            {% empty %}
+            <tr>
+                <td colspan="4" style="padding: 1.5rem; text-align: center; color: #888;">Aucun produit trouvé.</td>
+            </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endblock %}
