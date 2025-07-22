@@ -26,7 +26,7 @@
                     {% endif %}
                 </td>
                 <td style="padding: 0.75rem;">
-                    <a href="" style="background: #667eea; color: #fff; border: none; border-radius: 5px; padding: 0.3rem 1rem; text-decoration: none; font-weight: bold;">Détails</a>
+                    <a href="{% url 'billing:invoice_detail' invoice.pk %}" style="background: #667eea; color: #fff; border: none; border-radius: 5px; padding: 0.3rem 1rem; text-decoration: none; font-weight: bold;">Détails</a>
                 </td>
             </tr>
             {% empty %}

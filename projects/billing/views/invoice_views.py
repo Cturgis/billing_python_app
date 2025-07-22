@@ -1,5 +1,7 @@
-from projects.billing.models import Customer, Invoice, Product
-from projects.billing.models.Invoice import InvoiceItem
+from django.shortcuts import render
+
+from billing.models import Customer, Product
+from billing.models.Invoice import InvoiceItem, Invoice
 
 
 def create_invoice_with_products(customer_id, products_data):
@@ -27,6 +29,6 @@ def invoice_detail(request, pk):
     context = {
         'invoice': invoice,
         'items': items,
-        'total': invoice.total_amount()
+        'total': invoice.total_amount
     }
-    return render(request, 'billing/invoice_detail.html', context)
+    return render(request, 'billing/invoice/invoice_detail.html', context)

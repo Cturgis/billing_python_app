@@ -1,5 +1,5 @@
 from django.urls import path
-from .views import auth_views, customer_views, product_views
+from .views import auth_views, customer_views, product_views, invoice_views
 
 app_name = 'billing'
 
@@ -29,4 +29,5 @@ urlpatterns = [
     path('customer/dashboard/', customer_views.customer_dashboard, name='customer_dashboard'),
     path('customer/boutique/', customer_views.shop_view, name='customer_shop'),
     path('customer/mes-factures/', customer_views.my_invoice_view, name='customer_invoice'),
+    path('invoice/<int:pk>/', invoice_views.invoice_detail, name='invoice_detail'),
 ]
