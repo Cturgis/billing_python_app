@@ -59,15 +59,51 @@ def customer_dashboard(request):
 
 @login_required
 def shop_view(request):
-    products = Product.objects.all()
-    return render(request, 'billing/customer/shop.html', {'products': products})
+    products = Product.objects.order_by('pk')
+    customer = get_object_or_404(Customer, user=request.user)
+    if request.method == 'POST':
+        ordered = False
+        today = timezone.now().date()
+        invoice, created = Invoice.objects.get_or_create(customer=customer, created_at__date=today, defaults={})
+        for product in products:
+            qtty_str = request.POST.get(f'qtty_{product.pk}', '0')
+            try:
+                qtty = int(qtty_str)
+            except ValueError:
+                qtty = 0
+            if qtty > 0:
+                # Check stock
+                if qtty > product.qtty:
+                    messages.warning(request, f"Stock insuffisant pour {product.name} (stock: {product.qtty})")
+                    continue
+                # Create or update InvoiceItem
+                item, item_created = InvoiceItem.objects.get_or_create(
+                    invoice=invoice, product=product,
+                    defaults={'quantity': 0, 'unit_price': product.price}
+                )
+                if item_created:
+                    item.quantity = qtty
+                else:
+                    item.quantity += qtty
+                item.unit_price = product.price
+                item.save()
+                # Decrement stock
+                product.qtty -= qtty
+                product.save()
+                ordered = True
+        if ordered:
+            messages.success(request, "Votre commande a été validée !")
+        else:
+            messages.warning(request, "Aucun produit sélectionné ou stock insuffisant.")
+        return redirect('billing:customer_shop')
+    return render(request, 'billing/customer/customer_shop.html', {'products': products})
 
 
 @login_required
 def my_invoice_view(request):
     customer = get_object_or_404(Customer, user=request.user)
     invoices = Invoice.objects.filter(customer=customer).order_by('-created_at')
-    return render(request, 'billing/customer/my_invoice.html', {'invoices': invoices})
+    return render(request, 'billing/customer/customer_invoice.html', {'invoices': invoices})
 
 
 @login_required

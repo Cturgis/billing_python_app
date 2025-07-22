@@ -144,8 +144,8 @@
                 <a href="{% url 'billing:product_list' %}" style="color: white; text-decoration: none;">Produits</a>
             {% elif user.groups.all.0.name == 'customer' %}
                 <a href="{% url 'billing:customer_dashboard' %}" style="color: white; text-decoration: none; font-weight: bold;">Espace client</a>
-                <a href="{% url 'billing:shop' %}" style="color: white; text-decoration: none;">Boutique</a>
-                <a href="{% url 'billing:my_invoice' %}" style="color: white; text-decoration: none;">Mes factures</a>
+                <a href="{% url 'billing:customer_shop' %}" style="color: white; text-decoration: none;">Boutique</a>
+                <a href="{% url 'billing:customer_invoice' %}" style="color: white; text-decoration: none;">Mes factures</a>
             {% endif %}
         {% endif %}
     </nav>
