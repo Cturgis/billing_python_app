@@ -39,15 +39,15 @@ class CustomerShopTestCase(TestCase):
         self.assertEqual(self.product1.qtty, 3)
         self.assertEqual(self.product2.qtty, 1)
 
-    # def test_order_with_insufficient_stock(self):
-    #     response = self.client.post('/billing/customer/boutique/', {
-    #         f'qtty_{self.product1.pk}': '10',  # More than stock
-    #     }, follow=True)
-    #     self.assertContains(response, 'Stock insuffisant')
-    #     self.assertFalse(Invoice.objects.filter(customer=self.customer).exists())
-    #
-    # def test_order_with_no_selection(self):
-    #     response = self.client.post('/billing/customer/boutique/', {}, follow=True)
-    #     self.assertContains(response, 'Aucun produit sélectionné')
-    #     self.assertFalse(Invoice.objects.filter(customer=self.customer).exists())
-    #
+    def test_order_with_insufficient_stock(self):
+        response = self.client.post('/billing/customer/boutique/', {
+            f'qtty_{self.product1.pk}': '10',  # More than stock
+        }, follow=True)
+        self.assertContains(response, 'Stock insuffisant')
+        self.assertFalse(Invoice.objects.filter(customer=self.customer).exists())
+
+    def test_order_with_no_selection(self):
+        response = self.client.post('/billing/customer/boutique/', {}, follow=True)
+        self.assertContains(response, 'Aucun produit sélectionné')
+        self.assertFalse(Invoice.objects.filter(customer=self.customer).exists())
+
