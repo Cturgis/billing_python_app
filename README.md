@@ -23,7 +23,8 @@
 1. **Cloner le dépôt** (si ce n'est pas déjà fait) :
    ```sh
    git clone https://github.com/Cturgis/billing_python_app.git
-   cd Python
+   cd billing_python_app
+
    ```
 
 2. **Construire et démarrer l'application :**
