@@ -11,9 +11,9 @@ services:
     environment:
       - POSTGRES_SERVICE=localhost
       - POSTGRES_PORT=5432
-      - POSTGRES_DB=billing_db
-      - POSTGRES_USER=billing_db_admin
-      - POSTGRES_PASSWORD=billing_db_admin_password
+      - POSTGRES_DB=jf_db
+      - POSTGRES_USER=jf_db_admin
+      - POSTGRES_PASSWORD=jf_db_admin_password
     ports:
       - '5432:5432'
   pgadmin:
@@ -29,16 +29,16 @@ services:
     depends_on:
       - postgres
   django:
-    build: ./projects
+    build: ./app_jf
     command: >
       sh -c "python manage.py migrate && python manage.py create_default_users && python manage.py runserver 0.0.0.0:8000"
     volumes:
-      - ./projects:/app
+      - ./app_jf:/app
     ports:
       - "8000:8000"
     depends_on:
       - postgres
     environment:
-      - DJANGO_SETTINGS_MODULE=app-root.settings
-      - DATABASE_URL=postgres://billing_db_admin:billing_db_admin_password@postgres:5432/billing_db
+      - DJANGO_SETTINGS_MODULE=app_jf.settings
+      - DATABASE_URL=postgres://jf_db_admin:jf_db_admin_password@postgres:5432/jf_db
       - POSTGRES_HOST=postgres

@@ -1,3 +1,4 @@
+from django.contrib.messages import constants as messages
 from pathlib import Path
 import os
 
@@ -5,17 +6,18 @@ import os
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-3gld0q$plvlzw(lo_rm2b+kgx&j7*i=vq+hoydf&@t9r-kebt&'
+SECRET_KEY = 'django-insecure-uu#)7xwl$!b_-g8f_x1&@t+x%ll^*n*#*9ed_!$m72j(&j3i#*'
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
 ALLOWED_HOSTS = []
 
+
 # Application definition
 
 INSTALLED_APPS = [
-    'billing.apps.BillingConfig',
+    'job_finder.apps.JobFinderConfig',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -34,7 +36,7 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
-ROOT_URLCONF = 'app-root.urls'
+ROOT_URLCONF = 'app_jf.urls'
 
 TEMPLATES = [
     {
@@ -52,7 +54,8 @@ TEMPLATES = [
     },
 ]
 
-WSGI_APPLICATION = 'app-root.wsgi.application'
+WSGI_APPLICATION = 'app_jf.wsgi.application'
+
 
 # Database
 # https://docs.djangoproject.com/en/5.1/ref/settings/#databases
@@ -60,9 +63,9 @@ WSGI_APPLICATION = 'app-root.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'billing_db',
-        'USER': 'billing_db_admin',
-        'PASSWORD': 'billing_db_admin_password',
+        'NAME': 'jf_db',
+        'USER': 'jf_db_admin',
+        'PASSWORD': 'jf_db_admin_password',
         'HOST': os.environ.get('POSTGRES_HOST', 'localhost'),
         'PORT': '5432',
         'Options': {
@@ -70,6 +73,7 @@ DATABASES = {
         },
     }
 }
+
 
 # Password validation
 # https://docs.djangoproject.com/en/5.1/ref/settings/#auth-password-validators
@@ -89,43 +93,29 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
-LOGIN_REDIRECT_URL = '/billing/dashboard/'
-
-LOGOUT_REDIRECT_URL = '/billing/login/'
-
-LOGIN_URL = '/billing/login/'
-
-
 
 # Internationalization
 # https://docs.djangoproject.com/en/5.1/topics/i18n/
 
 LANGUAGE_CODE = 'en-us'
 
-TIME_ZONE = 'Europe/Paris'
+TIME_ZONE = 'UTC'
 
 USE_I18N = True
 
 USE_TZ = True
+
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/5.1/howto/static-files/
 
 STATIC_URL = 'static/'
 
-STATICFILES_DIRS = [
-    BASE_DIR / "billing/static",
-]
-
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-
-#dev
-
-from django.contrib.messages import constants as messages
 MESSAGE_TAGS = {
     messages.DEBUG: 'debug',
     messages.INFO: 'info',
