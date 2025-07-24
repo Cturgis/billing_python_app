@@ -1,0 +1,54 @@
+{% block content %}
+<h2>Inscription</h2>
+{% if messages %}
+{% for message in messages %}
+<div>{{ message }}</div>
+{% endfor %}
+{% endif %}
+<form method="post" novalidate>
+    {% csrf_token %}
+    {{ form.non_field_errors }}
+    <div>
+        {{ form.email.label_tag }}<br>
+        {{ form.email }}
+        {{ form.email.errors }}
+    </div>
+    <div>
+        {{ form.username.label_tag }}<br>
+        {{ form.username }}
+        {{ form.username.errors }}
+    </div>
+    <div>
+        {{ form.password.label_tag }}<br>
+        {{ form.password }}
+        {{ form.password.errors }}
+    </div>
+    <div>
+        {{ form.confirm_password.label_tag }}<br>
+        {{ form.confirm_password }}
+        {{ form.confirm_password.errors }}
+    </div>
+    <div>
+        {{ form.first_name.label_tag }}<br>
+        {{ form.first_name }}
+        {{ form.first_name.errors }}
+    </div>
+    <div>
+        {{ form.last_name.label_tag }}<br>
+        {{ form.last_name }}
+        {{ form.last_name.errors }}
+    </div>
+    <div>
+        {{ form.birthDate.label_tag }}<br>
+        {{ form.birthDate }}
+        {{ form.birthDate.errors }}
+    </div>
+    <div>
+        {{ form.city.label_tag }}<br>
+        {{ form.city }}
+        {{ form.city.errors }}
+    </div>
+    <button type="submit">S'inscrire</button>
+</form>
+{% endblock %}
+
