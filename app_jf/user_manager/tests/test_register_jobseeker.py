@@ -1,86 +1,91 @@
 from django.test import TestCase
 from django.urls import reverse
-from django.contrib.auth.models import Group
 from django.contrib.auth import get_user_model
+from django.contrib.auth.models import Group
 from user_manager.models import JobSeeker
+from datetime import date
+
 
 class RegisterJobSeekerTests(TestCase):
     def setUp(self):
-        Group.objects.get_or_create(name='JobSeeker')
+        self.User = get_user_model()
+        self.test_user = self.User.objects.create_user(
+            username='testuser',
+            email='test@example.com',
+            password='testpassword',
+            first_name='Test',
+            last_name='User'
+        )
+        self.jobseeker_group, _ = Group.objects.get_or_create(name='JobSeeker')
 
-    def test_register_jobseeker_success(self):
-        response = self.client.post(reverse('register'), {
-            'username': 'newuser',
-            'email': 'newuser@example.com',
-            'password': 'testpassword123',
-            'confirm_password': 'testpassword123',
-            'first_name': 'Jean',
-            'last_name': 'Test',
-            'birthDate': '1995-05-10',
-            'city': 'Paris',
-        }, follow=True)
-        User = get_user_model()
-        user = User.objects.get(username='newuser')
-        self.assertTrue(user.groups.filter(name='JobSeeker').exists())
-        self.assertTrue(hasattr(user, 'jobseeker_profile'))
-        self.assertEqual(user.jobseeker_profile.birthDate.strftime('%Y-%m-%d'), '1995-05-10')
-        self.assertEqual(user.jobseeker_profile.city, 'Paris')
-        self.assertContains(response, 'Inscription réussie')
+    def test_redirect_if_not_logged_in(self):
+        """Test que les utilisateurs non connectés sont redirigés vers la page de connexion"""
+        response = self.client.get(reverse('register_jobseeker'))
+        self.assertRedirects(
+            response,
+            f'/user/login/?next={reverse("register_jobseeker")}',
+            status_code=302,
+            target_status_code=200
+        )
 
-    def test_register_jobseeker_password_mismatch(self):
-        response = self.client.post(reverse('register'), {
-            'username': 'newuser2',
-            'email': 'newuser2@example.com',
-            'password': 'testpassword123',
-            'confirm_password': 'wrongpassword',
-            'first_name': 'Marie',
-            'last_name': 'Test',
+    def test_view_url_accessible_by_name(self):
+        """Test que l'URL est accessible par son nom"""
+        self.client.login(username='testuser', password='testpassword')
+        response = self.client.get(reverse('register_jobseeker'))
+        self.assertEqual(response.status_code, 200)
+
+    def test_view_uses_correct_template(self):
+        """Test que la vue utilise le bon template"""
+        self.client.login(username='testuser', password='testpassword')
+        response = self.client.get(reverse('register_jobseeker'))
+        self.assertTemplateUsed(response, 'user_manager/register_jobseeker.html')
+
+    def test_form_contains_expected_fields(self):
+        """Test que le formulaire contient les champs attendus"""
+        self.client.login(username='testuser', password='testpassword')
+        response = self.client.get(reverse('register_jobseeker'))
+        self.assertContains(response, 'name="birthDate"')
+        self.assertContains(response, 'name="city"')
+
+    def test_successful_form_submission_creates_jobseeker_profile(self):
+        """Test qu'une soumission réussie crée un profil JobSeeker"""
+        self.client.login(username='testuser', password='testpassword')
+        self.assertEqual(JobSeeker.objects.count(), 0)
+        response = self.client.post(reverse('register_jobseeker'), {
             'birthDate': '1990-01-01',
-            'city': 'Lyon',
-        })
-        self.assertFormError(response.context['form'], 'confirm_password', 'Les mots de passe ne correspondent pas.')
-        User = get_user_model()
-        self.assertFalse(User.objects.filter(username='newuser2').exists())
+            'city': 'Paris'
+        }, follow=True)
+        self.assertEqual(JobSeeker.objects.count(), 1)
+        jobseeker = JobSeeker.objects.first()
+        self.assertEqual(jobseeker.user, self.test_user)
+        self.assertEqual(jobseeker.birthDate, date(1990, 1, 1))
+        self.assertEqual(jobseeker.city, 'Paris')
 
-    def test_register_jobseeker_missing_field(self):
-        response = self.client.post(reverse('register'), {
-            'username': '',
-            'email': 'nouser@example.com',
-            'password': 'testpassword123',
-            'confirm_password': 'testpassword123',
-            'first_name': 'No',
-            'last_name': 'Name',
-            'birthDate': '2000-01-01',
-            'city': 'Marseille',
-        })
-        self.assertFormError(response.context['form'], 'username', 'This field is required.')
+    def test_successful_form_adds_user_to_jobseeker_group(self):
+        """Test qu'une soumission réussie ajoute l'utilisateur au groupe JobSeeker"""
+        self.client.login(username='testuser', password='testpassword')
+        self.assertFalse(self.test_user.groups.filter(name='JobSeeker').exists())
+        response = self.client.post(reverse('register_jobseeker'), {
+            'birthDate': '1990-01-01',
+            'city': 'Paris'
+        }, follow=True)
+        self.test_user.refresh_from_db()
+        self.assertTrue(self.test_user.groups.filter(name='JobSeeker').exists())
 
-    def test_register_jobseeker_duplicate_username(self):
-        User = get_user_model()
-        User.objects.create_user(username='dupuser', email='dup@example.com', password='dup12345')
-        response = self.client.post(reverse('register'), {
-            'username': 'dupuser',
-            'email': 'dup2@example.com',
-            'password': 'dup12345',
-            'confirm_password': 'dup12345',
-            'first_name': 'Dup',
-            'last_name': 'User',
-            'birthDate': '1999-09-09',
-            'city': 'Nice',
-        })
-        self.assertFormError(response.context['form'], 'username', 'A user with that username already exists.')
+    def test_successful_form_redirects_to_dashboard(self):
+        """Test qu'une soumission réussie redirige vers le tableau de bord"""
+        self.client.login(username='testuser', password='testpassword')
+        response = self.client.post(reverse('register_jobseeker'), {
+            'birthDate': '1990-01-01',
+            'city': 'Paris'
+        }, follow=True)
+        self.assertRedirects(response, reverse('job_finder:dashboard'))
 
-    def test_register_jobseeker_duplicate_email(self):
-        User = get_user_model()
-        User.objects.create_user(username='uniqueuser', email='dupemail@example.com', password='dup12345')
-        response = self.client.post(reverse('register'), {
-            'username': 'anotheruser',
-            'email': 'dupemail@example.com',
-            'password': 'dup12345',
-            'confirm_password': 'dup12345',
-            'first_name': 'Dup',
-            'last_name': 'Email',
-            'birthDate': '1999-09-09',
-            'city': 'Nice',
+    def test_invalid_form_shows_error(self):
+        """Test qu'un formulaire invalide affiche des erreurs"""
+        self.client.login(username='testuser', password='testpassword')
+        response = self.client.post(reverse('register_jobseeker'), {
+            'city': 'Paris'
         })
-        self.assertFormError(response.context['form'], 'email', 'Un utilisateur avec cette adresse e-mail existe déjà.')
+        self.assertEqual(JobSeeker.objects.count(), 0)
+        self.assertContains(response, 'Ce champ est obligatoire')

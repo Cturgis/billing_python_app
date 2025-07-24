@@ -29,3 +29,10 @@ class RegisterForm(forms.ModelForm):
         if User.objects.filter(email=email).exists():
             raise ValidationError("Un utilisateur avec cette adresse e-mail existe déjà.")
         return email
+
+    def clean_username(self):
+        username = self.cleaned_data.get('username')
+        User = get_user_model()
+        if User.objects.filter(username=username).exists():
+            raise ValidationError("Un utilisateur avec ce nom d'utilisateur existe déjà.")
+        return username
