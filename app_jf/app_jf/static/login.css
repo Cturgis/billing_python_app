@@ -1,5 +1,3 @@
-/* Style moderne et élégant pour la page de connexion */
-
 .login-form-outer-container {
   min-height: 100vh;
   display: flex;
@@ -142,4 +140,23 @@ form {
   background-color: rgba(239, 68, 68, 0.1);
   color: #ef4444;
   border-left: 4px solid #ef4444;
+}
+
+.login-form-register-link {
+  text-align: center;
+  margin-top: 1.5rem;
+  font-size: 0.95rem;
+  color: #475569;
+}
+
+.login-form-register-link a {
+  color: #2563eb;
+  text-decoration: none;
+  font-weight: 600;
+  transition: color 0.2s;
+}
+
+.login-form-register-link a:hover {
+  color: #1d4ed8;
+  text-decoration: underline;
 }

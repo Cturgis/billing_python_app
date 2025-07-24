@@ -142,6 +142,25 @@ form {
   border-left: 4px solid #ef4444;
 }
 
+.register-form-login-link {
+  text-align: center;
+  margin-top: 1.5rem;
+  font-size: 0.95rem;
+  color: #475569;
+}
+
+.register-form-login-link a {
+  color: #3b82f6;
+  text-decoration: none;
+  font-weight: 600;
+  transition: color 0.2s;
+}
+
+.register-form-login-link a:hover {
+  color: #2563eb;
+  text-decoration: underline;
+}
+
 /* Responsive pour les mobiles */
 @media (max-width: 640px) {
   .register-form-row {
