@@ -1,28 +1,28 @@
+{% extends "base.html" %}
 {% load static %}
 
 {% block content %}
-<div class="container mt-5" style="max-width: 400px;">
-    <h2 class="mb-4">Connexion</h2>
+<div class="form-container">
+    <h2 class="form-title">Connexion</h2>
     {% if messages %}
     {% for message in messages %}
-    <div class="alert alert-{{ message.tags }}">{{ message }}</div>
+    <div class="form-message alert-{{ message.tags }}">{{ message }}</div>
     {% endfor %}
     {% endif %}
-    <form method="post" novalidate>
+    <form method="post" class="form" novalidate>
         {% csrf_token %}
         {{ form.non_field_errors }}
-        <div class="mb-3">
+        <div class="form-group">
             {{ form.username.label_tag }}
             {{ form.username }}
             {{ form.username.errors }}
         </div>
-        <div class="mb-3">
+        <div class="form-group">
             {{ form.password.label_tag }}
             {{ form.password }}
             {{ form.password.errors }}
         </div>
-        <button type="submit" class="btn btn-primary w-100">Se connecter</button>
+        <button type="submit" class="form-btn">Se connecter</button>
     </form>
 </div>
 {% endblock %}
-
