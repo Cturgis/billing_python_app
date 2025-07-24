@@ -24,15 +24,15 @@ class LoginViewTests(TestCase):
 
     def test_login_admin(self):
         response = self.client.post(reverse('login'), {'username': 'admin', 'password': 'adminpassword'}, follow=True)
-        self.assertContains(response, 'Connexion réussie en tant que Admin')
+        self.assertContains(response, 'en tant que : Admin')
 
     def test_login_jobseeker(self):
         response = self.client.post(reverse('login'), {'username': 'jobseeker', 'password': 'jobseekerpassword'}, follow=True)
-        self.assertContains(response, 'Connexion réussie en tant que JobSeeker')
+        self.assertContains(response, 'en tant que : JobSeeker')
 
     def test_login_agency(self):
         response = self.client.post(reverse('login'), {'username': 'agency', 'password': 'agencypassword'}, follow=True)
-        self.assertContains(response, 'Connexion réussie en tant que Agency')
+        self.assertContains(response, 'en tant que : Agency')
 
     def test_login_wrong_password(self):
         response = self.client.post(reverse('login'), {'username': 'admin', 'password': 'wrongpass'}, follow=True)
@@ -42,3 +42,7 @@ class LoginViewTests(TestCase):
         response = self.client.post(reverse('login'), {'username': 'wronguser', 'password': 'adminpassword'}, follow=True)
         self.assertContains(response, 'Nom d&#x27;utilisateur ou mot de passe incorrect')
 
+    def test_login_page_has_register_link(self):
+        response = self.client.get(reverse('login'))
+        self.assertContains(response, 'Vous n\'avez pas encore de compte ?')
+        self.assertContains(response, '<a href="%s">Inscrivez-vous</a>' % reverse('register'))

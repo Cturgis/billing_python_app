@@ -20,7 +20,7 @@ def register(request):
             login(request, user)
 
             messages.success(request, "Compte créé avec succès. Veuillez compléter votre profil.")
-            return redirect('select_profile_type')
+            return redirect('select_profile')
     else:
         form = RegisterForm()
     return render(request, 'user_manager/register.html', {'form': form})
