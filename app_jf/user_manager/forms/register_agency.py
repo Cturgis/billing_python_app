@@ -1,7 +1,7 @@
 from django import forms
 from user_manager.models import Agency
 
-class AgencyRegisterForm(forms.ModelForm):
+class RegisterAgencyForm(forms.ModelForm):
     class Meta:
         model = Agency
         fields = ['name', 'address', 'siret']

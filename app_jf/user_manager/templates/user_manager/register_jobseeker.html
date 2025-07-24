@@ -1,0 +1,43 @@
+{% extends "base.html" %}
+{% load static %}
+{% load widget_tweaks %}
+
+{% block content %}
+<link rel="stylesheet" href="{% static 'register.css' %}">
+<div class="register-form-outer-container">
+    <div class="register-form-card">
+        <h2 class="register-form-title">Complétez votre profil</h2>
+
+        {% if messages %}
+        {% for message in messages %}
+        <div class="register-form-message alert-{{ message.tags }}">{{ message }}</div>
+        {% endfor %}
+        {% endif %}
+
+        <form method="post" novalidate>
+            {% csrf_token %}
+            {{ form.non_field_errors }}
+
+            <div class="register-form-row">
+                <div class="register-form-group">
+                    {{ form.birthDate.label_tag }}
+                    {{ form.birthDate|add_class:"register-form-input" }}
+                    {% if form.birthDate.errors %}
+                    <div class="register-form-error">{{ form.birthDate.errors.0 }}</div>
+                    {% endif %}
+                </div>
+
+                <div class="register-form-group">
+                    {{ form.city.label_tag }}
+                    {{ form.city|add_class:"register-form-input" }}
+                    {% if form.city.errors %}
+                    <div class="register-form-error">{{ form.city.errors.0 }}</div>
+                    {% endif %}
+                </div>
+            </div>
+
+            <button type="submit" class="register-form-submit-btn">Finaliser mon profil</button>
+        </form>
+    </div>
+</div>
+{% endblock %}

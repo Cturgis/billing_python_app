@@ -128,3 +128,7 @@ MESSAGE_TAGS = {
     messages.WARNING: 'warning',
     messages.ERROR: 'error',
 }
+
+# URL de connexion personnalisée
+LOGIN_URL = '/user/login/'
+LOGIN_REDIRECT_URL = '/home/dashboard/'

@@ -1,54 +1,82 @@
-{% block content %}
-<h2>Inscription</h2>
-{% if messages %}
-{% for message in messages %}
-<div>{{ message }}</div>
-{% endfor %}
-{% endif %}
-<form method="post" novalidate>
-    {% csrf_token %}
-    {{ form.non_field_errors }}
-    <div>
-        {{ form.email.label_tag }}<br>
-        {{ form.email }}
-        {{ form.email.errors }}
-    </div>
-    <div>
-        {{ form.username.label_tag }}<br>
-        {{ form.username }}
-        {{ form.username.errors }}
-    </div>
-    <div>
-        {{ form.password.label_tag }}<br>
-        {{ form.password }}
-        {{ form.password.errors }}
-    </div>
-    <div>
-        {{ form.confirm_password.label_tag }}<br>
-        {{ form.confirm_password }}
-        {{ form.confirm_password.errors }}
-    </div>
-    <div>
-        {{ form.first_name.label_tag }}<br>
-        {{ form.first_name }}
-        {{ form.first_name.errors }}
-    </div>
-    <div>
-        {{ form.last_name.label_tag }}<br>
-        {{ form.last_name }}
-        {{ form.last_name.errors }}
-    </div>
-    <div>
-        {{ form.birthDate.label_tag }}<br>
-        {{ form.birthDate }}
-        {{ form.birthDate.errors }}
-    </div>
-    <div>
-        {{ form.city.label_tag }}<br>
-        {{ form.city }}
-        {{ form.city.errors }}
-    </div>
-    <button type="submit">S'inscrire</button>
-</form>
-{% endblock %}
+{% extends "base.html" %}
+{% load static %}
+{% load widget_tweaks %}
 
+{% block content %}
+<link rel="stylesheet" href="{% static 'register.css' %}">
+<div class="register-form-outer-container">
+    <div class="register-form-card">
+        <h2 class="register-form-title">Inscription</h2>
+
+        {% if messages %}
+        {% for message in messages %}
+        <div class="register-form-message alert-{{ message.tags }}">{{ message }}</div>
+        {% endfor %}
+        {% endif %}
+
+        <form method="post" novalidate>
+            {% csrf_token %}
+            {{ form.non_field_errors }}
+
+            <!-- Première rangée: Email et Username -->
+            <div class="register-form-row">
+                <div class="register-form-group">
+                    {{ form.email.label_tag }}
+                    {{ form.email|add_class:"register-form-input" }}
+                    {% if form.email.errors %}
+                    <div class="register-form-error">{{ form.email.errors.0 }}</div>
+                    {% endif %}
+                </div>
+
+                <div class="register-form-group">
+                    {{ form.username.label_tag }}
+                    {{ form.username|add_class:"register-form-input" }}
+                    {% if form.username.errors %}
+                    <div class="register-form-error">{{ form.username.errors.0 }}</div>
+                    {% endif %}
+                </div>
+            </div>
+
+            <!-- Deuxième rangée: Prénom et Nom -->
+            <div class="register-form-row">
+                <div class="register-form-group">
+                    {{ form.first_name.label_tag }}
+                    {{ form.first_name|add_class:"register-form-input" }}
+                    {% if form.first_name.errors %}
+                    <div class="register-form-error">{{ form.first_name.errors.0 }}</div>
+                    {% endif %}
+                </div>
+
+                <div class="register-form-group">
+                    {{ form.last_name.label_tag }}
+                    {{ form.last_name|add_class:"register-form-input" }}
+                    {% if form.last_name.errors %}
+                    <div class="register-form-error">{{ form.last_name.errors.0 }}</div>
+                    {% endif %}
+                </div>
+            </div>
+
+            <!-- Troisième rangée: Mot de passe et Confirmation -->
+            <div class="register-form-row">
+                <div class="register-form-group">
+                    {{ form.password.label_tag }}
+                    {{ form.password|add_class:"register-form-input" }}
+                    {% if form.password.errors %}
+                    <div class="register-form-error">{{ form.password.errors.0 }}</div>
+                    {% endif %}
+                </div>
+
+                <div class="register-form-group">
+                    {{ form.confirm_password.label_tag }}
+                    {{ form.confirm_password|add_class:"register-form-input" }}
+                    {% if form.confirm_password.errors %}
+                    <div class="register-form-error">{{ form.confirm_password.errors.0 }}</div>
+                    {% endif %}
+                </div>
+            </div>
+
+            <button type="submit" class="register-form-submit-btn">S'inscrire</button>
+        </form>
+    </div>
+</div>
+{% endblock %}

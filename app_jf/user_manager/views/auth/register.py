@@ -1,9 +1,7 @@
 from django.shortcuts import render, redirect
-from django.contrib.auth.models import Group
+from django.contrib.auth import get_user_model, login
 from django.contrib import messages
-from django.contrib.auth import get_user_model
 from user_manager.forms.register import RegisterForm
-from user_manager.models import JobSeeker
 
 
 def register(request):
@@ -18,17 +16,11 @@ def register(request):
                 first_name=form.cleaned_data['first_name'],
                 last_name=form.cleaned_data['last_name'],
             )
-            # Création du profil JobSeeker
-            JobSeeker.objects.create(
-                user=user,
-                birthDate=form.cleaned_data['birthDate'],
-                city=form.cleaned_data['city']
-            )
-            # Ajout au groupe JobSeeker
-            jobseeker_group, _ = Group.objects.get_or_create(name='JobSeeker')
-            user.groups.add(jobseeker_group)
-            messages.success(request, "Inscription réussie. Veuillez compléter les informations de votre entreprise ou passer cette étape.")
-            return redirect('register_agency')
+
+            login(request, user)
+
+            messages.success(request, "Compte créé avec succès. Veuillez compléter votre profil.")
+            return redirect('select_profile_type')
     else:
         form = RegisterForm()
     return render(request, 'user_manager/register.html', {'form': form})

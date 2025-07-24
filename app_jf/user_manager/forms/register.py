@@ -7,14 +7,12 @@ from django.core.exceptions import ValidationError
 class RegisterForm(forms.ModelForm):
     password = forms.CharField(widget=forms.PasswordInput, label="Mot de passe")
     confirm_password = forms.CharField(widget=forms.PasswordInput, label="Confirmer le mot de passe")
-    birthDate = forms.DateField(widget=forms.DateInput(attrs={'type': 'date'}), label="Date de naissance")
-    city = forms.CharField(max_length=100, label="Ville")
 
     class Meta:
         model = get_user_model()
         fields = [
-            'email', 'username', 'password', 'confirm_password',
-            'first_name', 'last_name', 'birthDate', 'city',
+            'email', 'username', 'first_name', 'last_name',
+            'password', 'confirm_password',
         ]
 
     def clean(self):
