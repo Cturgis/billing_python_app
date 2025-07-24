@@ -1,28 +1,35 @@
 {% extends "base.html" %}
 {% load static %}
+{% load widget_tweaks %}
 
 {% block content %}
-<div class="form-container">
-    <h2 class="form-title">Connexion</h2>
-    {% if messages %}
-    {% for message in messages %}
-    <div class="form-message alert-{{ message.tags }}">{{ message }}</div>
-    {% endfor %}
-    {% endif %}
-    <form method="post" class="form" novalidate>
-        {% csrf_token %}
-        {{ form.non_field_errors }}
-        <div class="form-group">
-            {{ form.username.label_tag }}
-            {{ form.username }}
-            {{ form.username.errors }}
-        </div>
-        <div class="form-group">
-            {{ form.password.label_tag }}
-            {{ form.password }}
-            {{ form.password.errors }}
-        </div>
-        <button type="submit" class="form-btn">Se connecter</button>
-    </form>
+<div class="login-form-outer-container">
+    <div class="login-form-card">
+        <h2 class="login-form-title">Connexion</h2>
+        {% if messages %}
+        {% for message in messages %}
+        <div class="login-form-message alert-{{ message.tags }}">{{ message }}</div>
+        {% endfor %}
+        {% endif %}
+        <form method="post" novalidate>
+            {% csrf_token %}
+            {{ form.non_field_errors }}
+            <div class="login-form-group">
+                {{ form.username.label_tag }}
+                {{ form.username|add_class:'login-form-input' }}
+                {% for error in form.username.errors %}
+                <div class="login-form-error">{{ error }}</div>
+                {% endfor %}
+            </div>
+            <div class="login-form-group">
+                {{ form.password.label_tag }}
+                {{ form.password|add_class:'login-form-input' }}
+                {% for error in form.password.errors %}
+                <div class="login-form-error">{{ error }}</div>
+                {% endfor %}
+            </div>
+            <button type="submit" class="login-form-submit-btn">Se connecter</button>
+        </form>
+    </div>
 </div>
 {% endblock %}

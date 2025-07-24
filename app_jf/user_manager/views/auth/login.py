@@ -2,7 +2,6 @@ from django.contrib.auth import authenticate, login as auth_login
 from django.contrib import messages
 from django.shortcuts import render, redirect
 from user_manager.forms.login import LoginForm
-
 from job_finder.views.dashboard import dashboard
 
 

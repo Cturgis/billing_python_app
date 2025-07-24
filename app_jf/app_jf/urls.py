@@ -12,5 +12,5 @@ urlpatterns = [
     path('', root_redirect, name='root_redirect'),
     path('admin/', admin.site.urls),
     path('user/', include('user_manager.urls')),
-    path('home/', include('job_finder.urls')),
+    path('home/', include(('job_finder.urls', 'job_finder'), namespace='job_finder')),
 ]
