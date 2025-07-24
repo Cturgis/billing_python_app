@@ -1,83 +1,57 @@
-# Job Finder
+# Job Finder 🚀
 
-## Présentation
+## Salut ! 👋
 
-- **Admin** : développeur avec tous les droits
-- **Agency** : entreprise pouvant poster des offres
-- **JobSeeker** : demandeur d'emploi pouvant postuler
+Bienvenue sur ma petite application Job Finder ! J'ai essayé de rendre tout ça aussi simple et intuitif que possible.
 
-## Fonctionnalités principales
+## Docker Compose  🐳
 
-- Inscription d'un nouvel utilisateur (JobSeeker par défaut)
-- Création d'un profil JobSeeker avec informations personnelles
-- Possibilité de compléter un profil d'entreprise (Agency) après inscription
-- Authentification (login/logout) avec gestion des groupes
-- Tableau de bord après connexion
-- Gestion des messages de succès/erreur
+J'ai mis en place un Docker Compose qui gère tout.
+il execute surtout le script create_default_users.py dans user_manager
 
-## Installation
+## Comment lancer l'application ? 🚀
 
-1. **Cloner le dépôt**
-2. **Installer les dépendances** :
+1. Clone le repo
+2. À la racine :
    ```bash
-   pip install -r requirements.txt
+   docker-compose up
    ```
-3. **Configurer la base de données** (PostgreSQL recommandé, voir `docker-compose.yml`)
-4. **Lancer les migrations** :
+3. Rends-toi sur http://localhost:8000 et voilà !
+   4. Il arrive que django se lance plus vite que postgres, dans ce cas on peut tout redemarrer : 
    ```bash
-   python manage.py migrate
-   ```
-5. **Créer les utilisateurs par défaut** :
-   ```bash
-   python manage.py create_default_users
-   ```
-6. **Démarrer le serveur** :
-   ```bash
-   python manage.py runserver
+   docker compose down
+   docker compose up
    ```
 
-## Utilisation avec Docker
+## Comptes par défaut 👤
 
-- Lancer l'application et la base de données :
-  ```bash
-  docker-compose up --build
-  ```
+j'ai préparé 3 comptes :
 
-## Accès par défaut
+| Type de compte | Nom d'utilisateur | Mot de passe | Description |
+|---------------|-------------------|--------------|-------------|
+| Admin         | admin             | adminpass    | Accès à tout |
+| JobSeeker     | jobseeker         | jobseekerpass | Un demandeur d'emploi |
+| Agency        | agency            | agencypass   | Une entreprise qui recrute |
 
-- **Admin**
-  - username: `admin`
-  - password: `adminpass`
-- **Customer/JobSeeker**
-  - username: `customer`
-  - password: `customerpass`
+## gestion utilisateur 🔐
 
-## Tests
+Le système de gestion utilisateur est axé autour du middleware CheckProfile :
 
-Pour lancer les tests :
-```bash
-python manage.py test
-```
+- Un utilisateur non connecté est redirigé vers la page de login
+- Un utilisateur connecté sans groupe est redirigé vers select_profile pour choisir son type de profil
+- Un utilisateur avec le groupe JobSeeker mais sans profil JobSeeker est redirigé vers register_jobseeker
+- Un utilisateur avec le groupe Agency mais sans profil Agency est redirigé vers register_agency
+- Un utilisateur avec un profil complet peut naviguer normalement dans l'application
 
-## Structure des apps
+## Architecture du projet 🏗️
 
-- `user_manager` : gestion des utilisateurs, groupes, authentification, inscription
-- `job_finder` : gestion des offres d'emploi, dashboard, etc.
+Le projet est découpé en deux applications Django :
+- `user_manager` : gère tout ce qui est authentification, inscription, profils utilisateurs
+- `job_finder` : contient les fonctionnalités métier (dashboard, offres d'emploi, etc.)
 
-## Routes principales
+## Et voilà ! 🎉
 
-- `/register` : inscription d'un nouvel utilisateur
-- `/register/agency` : compléter le profil entreprise (optionnel)
-- `/login` : connexion
-- `/logout` : déconnexion
-- `/dashboard` : tableau de bord après connexion
+Voila voila. Beaucoup d'IA pour réussir coder aussi vite, mais surtout beaucoup de papier et le tronc dev a la main pour donner a manger a l agent,
+Serein sur la comprehension de ce que j'ai fais.
 
-## À venir
-
-- Gestion des offres d'emploi
-- Recherche et candidature
-- Interface d'administration avancée
-
----
-
-N'hésitez pas à consulter le code source pour plus de détails sur l'implémentation.
+Happy testing! 🧪
