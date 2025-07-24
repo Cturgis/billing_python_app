@@ -27,8 +27,8 @@ def register(request):
             # Ajout au groupe JobSeeker
             jobseeker_group, _ = Group.objects.get_or_create(name='JobSeeker')
             user.groups.add(jobseeker_group)
-            messages.success(request, "Inscription réussie. Vous pouvez maintenant vous connecter.")
-            return redirect('login')
+            messages.success(request, "Inscription réussie. Veuillez compléter les informations de votre entreprise ou passer cette étape.")
+            return redirect('register_agency')
     else:
         form = RegisterForm()
     return render(request, 'user_manager/register.html', {'form': form})

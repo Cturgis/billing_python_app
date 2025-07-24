@@ -3,6 +3,9 @@ from django.contrib import messages
 from django.shortcuts import render, redirect
 from user_manager.forms.login import LoginForm
 
+from job_finder.views.dashboard import dashboard
+
+
 def login(request):
     if request.method == 'POST':
         form = LoginForm(request.POST)
@@ -14,7 +17,7 @@ def login(request):
                 auth_login(request, user)
                 group = user.groups.first().name if user.groups.exists() else 'Aucun groupe'
                 messages.success(request, f"Connexion réussie en tant que {group}")
-                return render(request, 'user_manager/login.html', {'form': form})
+                return redirect('job_finder:dashboard')
             else:
                 messages.error(request, "Nom d'utilisateur ou mot de passe incorrect.")
     else:

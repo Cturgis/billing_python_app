@@ -1,0 +1,29 @@
+{% block content %}
+<h2>Informations sur l'entreprise</h2>
+{% if messages %}
+{% for message in messages %}
+<div>{{ message }}</div>
+{% endfor %}
+{% endif %}
+<form method="post" novalidate>
+    {% csrf_token %}
+    {{ form.non_field_errors }}
+    <div>
+        {{ form.name.label_tag }}<br>
+        {{ form.name }}
+        {{ form.name.errors }}
+    </div>
+    <div>
+        {{ form.address.label_tag }}<br>
+        {{ form.address }}
+        {{ form.address.errors }}
+    </div>
+    <div>
+        {{ form.siret.label_tag }}<br>
+        {{ form.siret }}
+        {{ form.siret.errors }}
+    </div>
+    <button type="submit">Valider</button>
+    <button type="submit" name="skip" value="1">Passer</button>
+</form>
+{% endblock %}
