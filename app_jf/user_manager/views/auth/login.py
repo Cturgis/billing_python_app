@@ -37,8 +37,7 @@ def login(request):
                     except Agency.DoesNotExist:
                         messages.info(request, "Veuillez compléter votre profil d'entreprise.")
                         return redirect('register_agency')
-
-                return redirect('dashboard')
+                return redirect('job_finder:dashboard')
             else:
                 messages.error(request, "Nom d'utilisateur ou mot de passe incorrect.")
     else:
