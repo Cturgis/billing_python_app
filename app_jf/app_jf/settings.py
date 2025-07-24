@@ -36,6 +36,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'user_manager.middleware.check_profile.ProfileCheck',
 ]
 
 ROOT_URLCONF = 'app_jf.urls'
