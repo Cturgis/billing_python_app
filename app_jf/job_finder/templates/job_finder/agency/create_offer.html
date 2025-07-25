@@ -9,9 +9,11 @@
 <link rel="stylesheet" href="{% static 'job_finder_form.css' %}">
 <div class="job-form-container">
     <div class="job-form-card">
-        <div class="agency-offers-header">
-            <h1>Créer une offre d'emploi</h1>
+        <div class="agency-offers-back">
             <a href="{% url 'job_finder:agency_offers' %}" class="btn-back" title="Retour aux offres">&#8592;</a>
+            <div class="agency-offers-title">
+                <h1>Créer une offre d'emploi</h1>
+            </div>
         </div>
 
         {% if messages %}

@@ -1,292 +1,322 @@
 .job-form-container {
-  min-height: calc(100vh - 60px); /* Ajustez selon la hauteur de votre header */
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 2rem 0;
+    min-height: calc(100vh - 60px); /* Ajustez selon la hauteur de votre header */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 2rem 0;
 }
 
 .job-form-card {
-  background: #ffffff;
-  border-radius: 12px;
-  box-shadow: 0 12px 24px rgba(0, 0, 0, 0.15);
-  padding: 2.5rem;
-  width: 100%;
-  max-width: 800px;
-  position: relative;
-  overflow: hidden;
+    background: #ffffff;
+    border-radius: 12px;
+    box-shadow: 0 12px 24px rgba(0, 0, 0, 0.15);
+    padding: 2.5rem;
+    width: 100%;
+    max-width: 800px;
+    position: relative;
+    overflow: hidden;
 }
 
 .job-form-card::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  height: 5px;
-  background: linear-gradient(to right, #4CAF50, #2E7D32);
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 5px;
+    background: linear-gradient(to right, #4CAF50, #2E7D32);
 }
 
-.job-form-title {
-  color: #0f172a;
-  font-size: 1.75rem;
-  font-weight: 700;
-  margin-bottom: 1.75rem;
-  text-align: left;
-  letter-spacing: -0.3px;
-  position: relative;
-}
-
-.job-form-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 2rem;
-  border-bottom: 1px solid #e2e8f0;
-  padding-bottom: 1rem;
-}
-
-.job-form-header h1 {
-  font-size: 1.5rem;
-  font-weight: 600;
-  color: #0f172a;
-  margin: 0;
-}
-
-.job-form {
-  width: 100%;
-  display: flex;
-  flex-direction: column;
-}
-
-.job-form-row {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 1.5rem;
-  width: 100%;
-  margin-bottom: 1rem;
-}
-
-.job-form-group {
-  margin-bottom: 1.5rem;
-  width: 100%;
-}
-
-.job-form-group label {
-  display: block;
-  color: #334155;
-  font-weight: 600;
-  margin-bottom: 0.5rem;
-  font-size: 0.9rem;
-}
-
-.job-form-input {
-  width: 100%;
-  padding: 0.75rem 1rem;
-  font-size: 1rem;
-  border: 1px solid #cbd5e1;
-  border-radius: 6px;
-  transition: all 0.2s ease-in-out;
-  background-color: #f8fafc;
-}
-
-.job-form-input:focus {
-  border-color: #4CAF50;
-  outline: none;
-  box-shadow: 0 0 0 3px rgba(76, 175, 80, 0.15);
-  background-color: #fff;
-}
-
-.job-form-select {
-  width: 100%;
-  padding: 0.75rem 1rem;
-  font-size: 1rem;
-  border: 1px solid #cbd5e1;
-  border-radius: 6px;
-  transition: all 0.2s ease-in-out;
-  background-color: #f8fafc;
-  appearance: none;
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke='%23475569'%3E%3Cpath stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M19 9l-7 7-7-7'%3E%3C/path%3E%3C/svg%3E");
-  background-repeat: no-repeat;
-  background-position: right 0.75rem center;
-  background-size: 1rem;
-  padding-right: 2.5rem;
-}
-
-.job-form-select:focus {
-  border-color: #4CAF50;
-  outline: none;
-  box-shadow: 0 0 0 3px rgba(76, 175, 80, 0.15);
-  background-color: #fff;
-}
-
-.job-form-textarea {
-  width: 100%;
-  padding: 0.75rem 1rem;
-  font-size: 1rem;
-  border: 1px solid #cbd5e1;
-  border-radius: 6px;
-  transition: all 0.2s ease-in-out;
-  background-color: #f8fafc;
-  min-height: 150px;
-  resize: vertical;
-}
-
-.job-form-textarea:focus {
-  border-color: #4CAF50;
-  outline: none;
-  box-shadow: 0 0 0 3px rgba(76, 175, 80, 0.15);
-  background-color: #fff;
-}
-
-.job-form-error {
-  color: #e11d48;
-  font-size: 0.85rem;
-  margin-top: 0.4rem;
-  display: flex;
-  align-items: center;
-  gap: 0.25rem;
-}
-
-.job-form-error::before {
-  content: '⚠️';
-  font-size: 0.85rem;
-}
-
-.job-form-help-text {
-  display: block;
-  margin-top: 0.4rem;
-  font-size: 0.8rem;
-  color: #64748b;
-}
-
-.job-form-submit-btn {
-  background: linear-gradient(to right, #4CAF50, #2E7D32);
-  color: white;
-  border: none;
-  border-radius: 6px;
-  padding: 0.85rem 2rem;
-  font-size: 1rem;
-  font-weight: 600;
-  cursor: pointer;
-  transition: all 0.3s;
-  box-shadow: 0 4px 6px rgba(76, 175, 80, 0.1);
-  align-self: flex-end;
-  margin-top: 1rem;
-}
-
-.job-form-submit-btn:hover {
-  background: linear-gradient(to right, #43A047, #1B5E20);
-  transform: translateY(-2px);
-  box-shadow: 0 6px 10px rgba(76, 175, 80, 0.2);
-}
-
-.job-form-submit-btn:active {
-  transform: translateY(0);
-}
-
-.job-form-actions {
-  display: flex;
-  justify-content: space-between;
-  margin-top: 2rem;
-  padding-top: 1.5rem;
-  border-top: 1px solid #e2e8f0;
-}
-
-.job-form-message {
-  padding: 1rem;
-  border-radius: 6px;
-  margin-bottom: 1.5rem;
-  font-size: 0.95rem;
-  width: 100%;
-  display: flex;
-  align-items: center;
-  gap: 0.75rem;
-}
-
-.job-form-message.success {
-  background-color: rgba(76, 175, 80, 0.1);
-  color: #4CAF50;
-  border-left: 4px solid #4CAF50;
-}
-
-.job-form-message.success::before {
-  content: '✅';
-}
-
-.job-form-message.error {
-  background-color: rgba(239, 68, 68, 0.1);
-  color: #ef4444;
-  border-left: 4px solid #ef4444;
-}
-
-.job-form-message.error::before {
-  content: '❌';
-}
-
-.job-form-message.warning {
-  background-color: rgba(245, 158, 11, 0.1);
-  color: #f59e0b;
-  border-left: 4px solid #f59e0b;
-}
-
-.job-form-message.warning::before {
-  content: '⚠️';
-}
-
-.job-form-message.info {
-  background-color: rgba(76, 175, 80, 0.1);
-  color: #4CAF50;
-  border-left: 4px solid #4CAF50;
-}
-
-.job-form-message.info::before {
-  content: 'ℹ️';
+.btn-back {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 48px;
+    height: 48px;
+    background-color: #f3f4f6;
+    color: #4b5563;
+    border: 1px solid #d1d5db;
+    border-radius: 50%;
+    text-decoration: none;
+    transition: all 0.2s ease;
+    font-size: 1.5rem;
+    margin-right: 1rem;
 }
 
 .btn-cancel {
-  display: inline-block;
-  padding: 0.75rem 1.5rem;
-  background-color: #f1f5f9;
-  color: #334155;
-  border: 1px solid #cbd5e1;
-  border-radius: 6px;
-  font-weight: 500;
-  text-decoration: none;
-  transition: all 0.2s ease;
-  text-align: center;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center; /* Centre le texte verticalement et horizontalement */
+    padding: 0.75rem 1.5rem;
+    background-color: #f3f4f6;
+    color: #4b5563;
+    border: 1px solid #d1d5db;
+    border-radius: 8px;
+    font-weight: 500;
+    text-decoration: none;
+    transition: all 0.2s ease;
+    height: 42px; /* Hauteur fixe pour aligner avec l'autre bouton */
+}
+
+.job-form-title {
+    color: #0f172a;
+    font-size: 1.75rem;
+    font-weight: 700;
+    margin-bottom: 1.75rem;
+    text-align: left;
+    letter-spacing: -0.3px;
+    position: relative;
+}
+
+.job-form-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 2rem;
+    border-bottom: 1px solid #e2e8f0;
+    padding-bottom: 1rem;
+}
+
+.job-form-header h1 {
+    font-size: 1.5rem;
+    font-weight: 600;
+    color: #0f172a;
+    margin: 0;
+}
+
+.job-form {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+.job-form-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1.5rem;
+    width: 100%;
+    margin-bottom: 1rem;
+}
+
+.job-form-group {
+    margin-bottom: 1.5rem;
+    width: 100%;
+}
+
+.job-form-group label {
+    display: block;
+    color: #334155;
+    font-weight: 600;
+    margin-bottom: 0.5rem;
+    font-size: 0.9rem;
+}
+
+.job-form-input {
+    width: 100%;
+    padding: 0.75rem 1rem;
+    font-size: 1rem;
+    border: 1px solid #cbd5e1;
+    border-radius: 6px;
+    transition: all 0.2s ease-in-out;
+    background-color: #f8fafc;
+}
+
+.job-form-input:focus {
+    border-color: #4CAF50;
+    outline: none;
+    box-shadow: 0 0 0 3px rgba(76, 175, 80, 0.15);
+    background-color: #fff;
+}
+
+.job-form-select {
+    width: 100%;
+    padding: 0.75rem 1rem;
+    font-size: 1rem;
+    border: 1px solid #cbd5e1;
+    border-radius: 6px;
+    transition: all 0.2s ease-in-out;
+    background-color: #f8fafc;
+    appearance: none;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke='%23475569'%3E%3Cpath stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M19 9l-7 7-7-7'%3E%3C/path%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 0.75rem center;
+    background-size: 1rem;
+    padding-right: 2.5rem;
+}
+
+.job-form-select:focus {
+    border-color: #4CAF50;
+    outline: none;
+    box-shadow: 0 0 0 3px rgba(76, 175, 80, 0.15);
+    background-color: #fff;
+}
+
+.job-form-textarea {
+    width: 100%;
+    padding: 0.75rem 1rem;
+    font-size: 1rem;
+    border: 1px solid #cbd5e1;
+    border-radius: 6px;
+    transition: all 0.2s ease-in-out;
+    background-color: #f8fafc;
+    min-height: 150px;
+    resize: vertical;
+}
+
+.job-form-textarea:focus {
+    border-color: #4CAF50;
+    outline: none;
+    box-shadow: 0 0 0 3px rgba(76, 175, 80, 0.15);
+    background-color: #fff;
+}
+
+.job-form-error {
+    color: #e11d48;
+    font-size: 0.85rem;
+    margin-top: 0.4rem;
+    display: flex;
+    align-items: center;
+    gap: 0.25rem;
+}
+
+.job-form-error::before {
+    content: '⚠️';
+    font-size: 0.85rem;
+}
+
+.job-form-help-text {
+    display: block;
+    margin-top: 0.4rem;
+    font-size: 0.8rem;
+    color: #64748b;
+}
+
+.job-form-submit-btn {
+    background: linear-gradient(to right, #4CAF50, #2E7D32);
+    color: white;
+    border: none;
+    border-radius: 6px;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s;
+    box-shadow: 0 4px 6px rgba(76, 175, 80, 0.1);
+    height: 42px
+}
+
+.job-form-submit-btn:hover {
+    background: linear-gradient(to right, #43A047, #1B5E20);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 10px rgba(76, 175, 80, 0.2);
+}
+
+.job-form-submit-btn:active {
+    transform: translateY(0);
+}
+
+.job-form-actions {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 2rem;
+    padding-top: 1.5rem;
+    border-top: 1px solid #e2e8f0;
+}
+
+.job-form-message {
+    padding: 1rem;
+    border-radius: 6px;
+    margin-bottom: 1.5rem;
+    font-size: 0.95rem;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+}
+
+.job-form-message.success {
+    background-color: rgba(76, 175, 80, 0.1);
+    color: #4CAF50;
+    border-left: 4px solid #4CAF50;
+}
+
+.job-form-message.success::before {
+    content: '✅';
+}
+
+.job-form-message.error {
+    background-color: rgba(239, 68, 68, 0.1);
+    color: #ef4444;
+    border-left: 4px solid #ef4444;
+}
+
+.job-form-message.error::before {
+    content: '❌';
+}
+
+.job-form-message.warning {
+    background-color: rgba(245, 158, 11, 0.1);
+    color: #f59e0b;
+    border-left: 4px solid #f59e0b;
+}
+
+.job-form-message.warning::before {
+    content: '⚠️';
+}
+
+.job-form-message.info {
+    background-color: rgba(76, 175, 80, 0.1);
+    color: #4CAF50;
+    border-left: 4px solid #4CAF50;
+}
+
+.job-form-message.info::before {
+    content: 'ℹ️';
+}
+
+.btn-cancel {
+    display: inline-block;
+    padding: 0.75rem 1.5rem;
+    background-color: #f1f5f9;
+    color: #334155;
+    border: 1px solid #cbd5e1;
+    border-radius: 6px;
+    font-weight: 500;
+    text-decoration: none;
+    transition: all 0.2s ease;
+    text-align: center;
 }
 
 .btn-cancel:hover {
-  background-color: #e2e8f0;
-  color: #0f172a;
+    background-color: #e2e8f0;
+    color: #0f172a;
 }
 
 /* Responsive pour les mobiles */
 @media (max-width: 768px) {
-  .job-form-row {
-    grid-template-columns: 1fr;
-    gap: 0.75rem;
-  }
+    .job-form-row {
+        grid-template-columns: 1fr;
+        gap: 0.75rem;
+    }
 
-  .job-form-card {
-    max-width: 95%;
-    padding: 1.75rem 1.25rem;
-  }
+    .job-form-card {
+        max-width: 95%;
+        padding: 1.75rem 1.25rem;
+    }
 
-  .job-form-header {
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 1rem;
-  }
+    .job-form-header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 1rem;
+    }
 
-  .job-form-actions {
-    flex-direction: column-reverse;
-    gap: 1rem;
-  }
+    .job-form-actions {
+        flex-direction: column-reverse;
+        gap: 1rem;
+    }
 
-  .job-form-submit-btn, .btn-cancel {
-    width: 100%;
-    text-align: center;
-  }
+    .job-form-submit-btn, .btn-cancel {
+        width: 100%;
+        text-align: center;
+    }
 }
