@@ -12,9 +12,9 @@
     <nav class="main-nav">
         {% if user.groups.all.0.name == 'Admin' %}
         <a href="{% url 'job_finder:dashboard' %}" class="nav-item">Dashboard</a>
-        <a href="#" class="nav-item">Utilisateurs</a>
+        <a href="#" class="nav-item">Candidats</a>
         <a href="#" class="nav-item">Offres d'emploi</a>
-        <a href="#" class="nav-item">Rapports</a>
+        <a href="#" class="nav-item">Entreprises</a>
         {% elif user.groups.all.0.name == 'Agency' %}
         <a href="{% url 'job_finder:dashboard' %}" class="nav-item">Dashboard</a>
         <a href="#" class="nav-item">Mes offres</a>

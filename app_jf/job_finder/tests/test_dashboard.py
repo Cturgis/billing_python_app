@@ -66,8 +66,8 @@ class DashboardViewTests(TestCase):
         self.assertContains(response, 'Admin')  # Vérifier avec la casse correcte
 
         # Vérifier que les liens spécifiques aux admins sont présents
-        self.assertContains(response, 'Utilisateurs')
-        self.assertContains(response, 'Rapports')
+        self.assertContains(response, 'Candidats')
+        self.assertContains(response, 'Entreprises')
 
     def test_dashboard_access_agency(self):
         """Test qu'une agence peut accéder au dashboard et voit les éléments appropriés"""
