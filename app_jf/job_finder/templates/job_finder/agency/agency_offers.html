@@ -3,17 +3,17 @@
 
 {% block title %}Mes offres d'emploi - JobFinder{% endblock %}
 
-{% block extra_css %}
-{% endblock %}
-
 {% block content %}
 {% include "job_finder/header.html" %}
+<link rel="stylesheet" href="{% static 'search_bar.css' %}">
 <link rel="stylesheet" href="{% static 'agency_offers.css' %}">
 <div class="agency-offers-container">
     <div class="agency-offers-header">
         <h1>Mes offres d'emploi</h1>
         <a href="{% url 'job_finder:create_offer' %}" class="create-offer-btn">Créer une nouvelle offre</a>
     </div>
+
+    {% include "job_finder/components/search_bar.html" %}
 
     {% if messages %}
     <div class="messages">
@@ -56,6 +56,11 @@
             </div>
         </div>
         {% endfor %}
+    </div>
+    {% elif search_query or active_filters %}
+    <div class="no-results-message">
+        <p>Aucune offre d'emploi ne correspond à vos critères de recherche.</p>
+        <p>Essayez de modifier vos filtres ou d'effectuer une nouvelle recherche.</p>
     </div>
     {% else %}
     <div class="no-offers-message">

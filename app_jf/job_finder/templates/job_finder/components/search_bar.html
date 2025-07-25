@@ -1,0 +1,75 @@
+{% load static %}
+
+<div class="search-bar-container">
+    <form method="get" class="search-form">
+        <div class="search-input-container">
+            <input
+                type="text"
+                name="search"
+                class="search-input"
+                placeholder="Rechercher..."
+                value="{{ search_query }}"
+                aria-label="Rechercher"
+            >
+            {% if search_query %}
+            <button type="button" class="search-clear-btn" onclick="clearSearch(this.form)">
+                <span aria-hidden="true">&times;</span>
+            </button>
+            {% endif %}
+        </div>
+
+        {% if show_filters %}
+        <div class="search-filters">
+            {% for filter in filters %}
+            <div class="filter-group">
+                <label for="{{ filter.id }}">{{ filter.label }}</label>
+                <select name="{{ filter.name }}" id="{{ filter.id }}" class="filter-select" onchange="this.form.submit()">
+                    <option value="">Tous</option>
+                    {% for option in filter.options %}
+                    <option value="{{ option.value }}" {% if option.selected %}selected{% endif %}>
+                        {{ option.label }}
+                    </option>
+                    {% endfor %}
+                </select>
+            </div>
+            {% endfor %}
+        </div>
+        {% endif %}
+
+        <div class="search-actions">
+            <button type="submit" class="search-btn">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16" aria-hidden="true">
+                    <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z"/>
+                </svg>
+                <span>Rechercher</span>
+            </button>
+            {% if search_query or active_filters %}
+            <a href="{{ reset_url }}" class="search-reset-btn">Réinitialiser</a>
+            {% endif %}
+        </div>
+    </form>
+
+    {% if search_query or active_filters %}
+    <div class="search-results-info">
+        <p>
+            {% if total_results == 0 %}
+            Aucun résultat trouvé
+            {% elif total_results == 1 %}
+            1 résultat trouvé
+            {% else %}
+            {{ total_results }} résultats trouvés
+            {% endif %}
+            {% if search_query %}pour "<strong>{{ search_query }}</strong>"{% endif %}
+            {% if active_filters %} avec les filtres sélectionnés{% endif %}
+        </p>
+    </div>
+    {% endif %}
+</div>
+
+<script>
+    function clearSearch(form) {
+        const searchInput = form.querySelector('input[name="search"]');
+        searchInput.value = '';
+        form.submit();
+    }
+</script>
