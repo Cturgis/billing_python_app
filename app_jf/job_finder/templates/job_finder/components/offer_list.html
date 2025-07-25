@@ -1,0 +1,152 @@
+{% load static %}
+
+<div class="offer-list-container">
+
+    {% if show_filters %}
+    <div class="offer-list-filters">
+        <form method="get" class="offer-list-filter-form">
+            {% for param, value in request.GET.items %}
+                {% if param != 'search' and param != 'contract_type' and param != 'status' and param != 'experience' and param != 'sort_by' and param != 'sort_by_date' %}
+                <input type="hidden" name="{{ param }}" value="{{ value }}">
+                {% endif %}
+            {% endfor %}
+
+            <div class="offer-list-search">
+                <input type="text" name="search" placeholder="Rechercher une offre..." value="{{ search_query|default:'' }}" class="offer-list-search-input">
+                <button type="submit" class="offer-list-search-btn">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
+                        <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z"/>
+                    </svg>
+                </button>
+                {% if search_query %}
+                <button type="button" class="offer-list-search-clear" onclick="clearSearchField(this.form)">×</button>
+                {% endif %}
+            </div>
+
+            <div class="offer-list-filter-row">
+                <div class="offer-list-filter-group">
+                    <label for="contract_type">Type de contrat</label>
+                    <select name="contract_type" id="contract_type" class="offer-list-select" onchange="this.form.submit()">
+                        <option value="">Tous les types</option>
+                        <option value="CDI" {% if contract_type == 'CDI' %}selected{% endif %}>CDI</option>
+                        <option value="CDD" {% if contract_type == 'CDD' %}selected{% endif %}>CDD</option>
+                        <option value="FREELANCE" {% if contract_type == 'FREELANCE' %}selected{% endif %}>Freelance</option>
+                        <option value="INTERNSHIP" {% if contract_type == 'INTERNSHIP' %}selected{% endif %}>Stage</option>
+                        <option value="APPRENTICESHIP" {% if contract_type == 'APPRENTICESHIP' %}selected{% endif %}>Apprentissage</option>
+                        <option value="PART_TIME" {% if contract_type == 'PART_TIME' %}selected{% endif %}>Temps partiel</option>
+                    </select>
+                </div>
+
+                <div class="offer-list-filter-group">
+                    <label for="experience">Expérience</label>
+                    <select name="experience" id="experience" class="offer-list-select" onchange="this.form.submit()">
+                        <option value="">Tous niveaux</option>
+                        <option value="NO_EXPERIENCE" {% if experience == 'NO_EXPERIENCE' %}selected{% endif %}>Débutant</option>
+                        <option value="JUNIOR" {% if experience == 'JUNIOR' %}selected{% endif %}>Junior</option>
+                        <option value="MID_LEVEL" {% if experience == 'MID_LEVEL' %}selected{% endif %}>Intermédiaire</option>
+                        <option value="SENIOR" {% if experience == 'SENIOR' %}selected{% endif %}>Senior</option>
+                        <option value="EXPERT" {% if experience == 'EXPERT' %}selected{% endif %}>Expert</option>
+                    </select>
+                </div>
+
+                {% if user_type != 'jobseeker' %}
+                <div class="offer-list-filter-group">
+                    <label for="status">Statut</label>
+                    <select name="status" id="status" class="offer-list-select" onchange="this.form.submit()">
+                        <option value="">Tous</option>
+                        <option value="active" {% if status == 'active' %}selected{% endif %}>Actives</option>
+                        <option value="inactive" {% if status == 'inactive' %}selected{% endif %}>Inactives</option>
+                    </select>
+                </div>
+                {% endif %}
+
+                <div class="offer-list-filter-group">
+                    <label for="sort_by">Trier par</label>
+                    <select name="sort_by" id="sort_by" class="offer-list-select" onchange="this.form.submit()">
+                        <option value="publication_date" {% if sort_by == 'publication_date' or not sort_by %}selected{% endif %}>Date de publication</option>
+                        <option value="title" {% if sort_by == 'title' %}selected{% endif %}>Titre</option>
+                        {% if user_type != 'jobseeker' %}
+                        <option value="is_active" {% if sort_by == 'is_active' %}selected{% endif %}>Statut</option>
+                        {% endif %}
+                    </select>
+                </div>
+
+                {% if sort_by == 'publication_date' or not sort_by %}
+                <div class="offer-list-filter-group">
+                    <label for="sort_by_date">Ordre de date</label>
+                    <select name="sort_by_date" id="sort_by_date" class="offer-list-select" onchange="this.form.submit()">
+                        <option value="desc" {% if sort_by_date == 'desc' or not sort_by_date %}selected{% endif %}>Plus récent d'abord</option>
+                        <option value="asc" {% if sort_by_date == 'asc' %}selected{% endif %}>Plus ancien d'abord</option>
+                    </select>
+                </div>
+                {% endif %}
+            </div>
+
+            {% if search_query or contract_type or experience or status or sort_by != 'publication_date' or sort_by_date != 'desc' %}
+            <div class="offer-list-filter-actions">
+                <a href="?{% if preserve_params %}{{ preserve_params }}{% endif %}" class="offer-list-filter-reset">Réinitialiser les filtres</a>
+            </div>
+            {% endif %}
+        </form>
+    </div>
+    {% endif %}
+
+    {% if offers %}
+    <div class="offer-list-results">
+        <div class="offer-list-count">
+            {% with total=offers|length %}
+            {% if total == 0 %}
+                Aucune offre trouvée
+            {% elif total == 1 %}
+                1 offre trouvée
+            {% else %}
+                {{ total }} offres trouvées
+            {% endif %}
+            {% endwith %}
+
+            {% if search_query %}
+            <span class="offer-list-search-query">pour "{{ search_query }}"</span>
+            {% endif %}
+        </div>
+
+        <div class="offer-list-grid">
+            {% for offer in offers %}
+                {% include "job_finder/components/offer_card.html" with offer=offer user_type=user_type show_actions=show_actions %}
+            {% endfor %}
+        </div>
+    </div>
+
+    {% else %}
+    <div class="offer-list-empty">
+        <div class="offer-list-empty-message">
+            {% if search_query or contract_type or experience or status %}
+                <p>Aucune offre ne correspond à vos critères de recherche.</p>
+                <p>Essayez de modifier vos filtres ou d'effectuer une nouvelle recherche.</p>
+                <div class="offer-list-empty-action">
+                    <a href="?{% if preserve_params %}{{ preserve_params }}{% endif %}" class="offer-list-btn">Réinitialiser les filtres</a>
+                </div>
+            {% else %}
+                {% if user_type == 'agency' %}
+                <p>Vous n'avez pas encore publié d'offres d'emploi.</p>
+                <div class="offer-list-empty-action">
+                    <a href="{% url 'job_finder:create_offer' %}" class="offer-list-btn">Créer votre première offre</a>
+                </div>
+                {% elif user_type == 'jobseeker' %}
+                <p>Aucune offre d'emploi disponible pour le moment.</p>
+                <p>Revenez plus tard pour découvrir de nouvelles opportunités.</p>
+                {% else %}
+                <p>Aucune offre d'emploi n'a été trouvée dans le système.</p>
+                {% endif %}
+            {% endif %}
+        </div>
+    </div>
+    {% endif %}
+</div>
+
+<script>
+    function clearSearchField(form) {
+        const searchInput = form.querySelector('input[name="search"]');
+        searchInput.value = '';
+        form.submit();
+    }
+</script>

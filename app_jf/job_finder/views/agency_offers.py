@@ -8,11 +8,6 @@ from job_finder.models.JobOffer import JobOffer
 
 @login_required
 def agency_offers(request):
-    """
-    Affiche toutes les offres d'emploi de l'agence de l'utilisateur connecté.
-    L'utilisateur doit appartenir au groupe 'Agency' pour accéder à cette vue.
-    Prend en charge la recherche et le filtrage des offres.
-    """
     user = request.user
 
     if not user.groups.filter(name='Agency').exists():
@@ -20,18 +15,17 @@ def agency_offers(request):
         return redirect('job_finder:dashboard')
 
     try:
-        # Récupérer l'agence associée à l'utilisateur
         agency = Agency.objects.get(user=user)
 
-        # Récupérer toutes les offres d'emploi de cette agence
         job_offers = JobOffer.objects.filter(agency=agency)
 
-        # Paramètres de recherche et filtrage
         search_query = request.GET.get('search', '')
         contract_filter = request.GET.get('contract_type', '')
         active_filter = request.GET.get('status', '')
+        experience_filter = request.GET.get('experience', '')
+        sort_by = request.GET.get('sort_by', 'title')  # Par défaut, tri par titre
+        sort_by_date = request.GET.get('sort_by_date', 'desc')  # Par défaut, date décroissante (plus récent en premier)
 
-        # Appliquer les filtres à la requête
         if search_query:
             job_offers = job_offers.filter(
                 Q(title__icontains=search_query) |
@@ -46,13 +40,17 @@ def agency_offers(request):
             is_active = active_filter == 'active'
             job_offers = job_offers.filter(is_active=is_active)
 
-        # Compter les résultats après filtrage
+        if experience_filter:
+            job_offers = job_offers.filter(experience_required=experience_filter)
+
         total_results = job_offers.count()
 
-        # Trier par date de publication décroissante
-        job_offers = job_offers.order_by('-publication_date')
+        if sort_by == 'publication_date':
+            order_prefix = '' if sort_by_date == 'asc' else '-'
+            job_offers = job_offers.order_by(f'{order_prefix}publication_date')
+        else:
+            job_offers = job_offers.order_by(sort_by)
 
-        # Construire les options de filtre pour le template
         contract_types = [
             {'value': 'CDI', 'label': 'CDI', 'selected': contract_filter == 'CDI'},
             {'value': 'CDD', 'label': 'CDD', 'selected': contract_filter == 'CDD'},
@@ -72,8 +70,17 @@ def agency_offers(request):
             {'id': 'status', 'name': 'status', 'label': 'Statut', 'options': status_options}
         ]
 
-        # Vérifier si des filtres sont actifs
-        active_filters = bool(contract_filter or active_filter)
+        active_filters = bool(contract_filter or active_filter or experience_filter or sort_by != 'title' or sort_by_date != 'desc')
+
+        preserve_params = ''
+        non_filter_params = {}
+        for key, value in request.GET.items():
+            if key not in ['search', 'contract_type', 'status', 'experience', 'sort_by', 'sort_by_date']:
+                non_filter_params[key] = value
+
+        if non_filter_params:
+            from urllib.parse import urlencode
+            preserve_params = urlencode(non_filter_params)
 
         return render(request, 'job_finder/agency/agency_offers.html', {
             'agency': agency,
@@ -83,7 +90,13 @@ def agency_offers(request):
             'show_filters': True,
             'active_filters': active_filters,
             'total_results': total_results,
-            'reset_url': reverse('job_finder:agency_offers')
+            'reset_url': reverse('job_finder:agency_offers'),
+            'contract_filter': contract_filter,
+            'active_filter': active_filter,
+            'experience_filter': experience_filter,
+            'sort_by': sort_by,
+            'sort_by_date': sort_by_date,
+            'preserve_params': preserve_params
         })
 
     except Agency.DoesNotExist:

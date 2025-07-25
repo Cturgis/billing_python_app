@@ -5,16 +5,14 @@
 
 {% block content %}
 {% include "job_finder/header.html" %}
-<link rel="stylesheet" href="{% static 'search_bar.css' %}">
 <link rel="stylesheet" href="{% static 'agency_offers.css' %}">
 <link rel="stylesheet" href="{% static 'offer_card.css' %}">
+<link rel="stylesheet" href="{% static 'offer_list.css' %}">
 <div class="agency-offers-container">
     <div class="agency-offers-header">
         <h1>Mes offres d'emploi</h1>
         <a href="{% url 'job_finder:create_offer' %}" class="create-offer-btn">Créer une nouvelle offre</a>
     </div>
-
-    {% include "job_finder/components/search_bar.html" %}
 
     {% if messages %}
     <div class="messages">
@@ -24,22 +22,6 @@
     </div>
     {% endif %}
 
-    {% if job_offers %}
-    <div class="job-offers-list list-grid">
-        {% for offer in job_offers %}
-            {% include "job_finder/components/offer_card.html" with offer=offer user_type="agency" show_actions=True %}
-        {% endfor %}
-    </div>
-    {% elif search_query or active_filters %}
-    <div class="no-results-message">
-        <p>Aucune offre d'emploi ne correspond à vos critères de recherche.</p>
-        <p>Essayez de modifier vos filtres ou d'effectuer une nouvelle recherche.</p>
-    </div>
-    {% else %}
-    <div class="no-offers-message">
-        <p>Vous n'avez pas encore publié d'offres d'emploi.</p>
-        <p>Commencez par <a href="{% url 'job_finder:create_offer' %}">créer votre première offre</a>.</p>
-    </div>
-    {% endif %}
+    {% include "job_finder/components/offer_list.html" with offers=job_offers user_type="agency" show_actions=True show_filters=True search_query=search_query contract_type=contract_filter experience=experience_filter status=active_filter sort_by=sort_by sort_dir=sort_dir total_results=total_results preserve_params=preserve_params %}
 </div>
 {% endblock %}

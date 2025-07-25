@@ -53,14 +53,18 @@
     <div class="search-results-info">
         <p>
             {% if total_results == 0 %}
-            Aucun résultat trouvé
+                Aucun résultat trouvé
             {% elif total_results == 1 %}
-            1 résultat trouvé
+                1 résultat trouvé
             {% else %}
-            {{ total_results }} résultats trouvés
+                {{ total_results }} résultats trouvés
             {% endif %}
-            {% if search_query %}pour "<strong>{{ search_query }}</strong>"{% endif %}
-            {% if active_filters %} avec les filtres sélectionnés{% endif %}
+            {% if search_query %}pour "
+                <strong>{{ search_query }}</strong>
+            "{% endif %}
+            {% if active_filters %}
+                avec les filtres sélectionnés
+            {% endif %}
         </p>
     </div>
     {% endif %}
