@@ -7,6 +7,7 @@
 {% include "job_finder/header.html" %}
 <link rel="stylesheet" href="{% static 'search_bar.css' %}">
 <link rel="stylesheet" href="{% static 'agency_offers.css' %}">
+<link rel="stylesheet" href="{% static 'offer_card.css' %}">
 <div class="agency-offers-container">
     <div class="agency-offers-header">
         <h1>Mes offres d'emploi</h1>
@@ -26,35 +27,7 @@
     {% if job_offers %}
     <div class="job-offers-list list-grid">
         {% for offer in job_offers %}
-        <div class="job-offer-card">
-            <div class="job-offer-header">
-                <h3>{{ offer.title }}</h3>
-                <span class="job-offer-reference">Réf: {{ offer.reference }}</span>
-            </div>
-            <div class="job-offer-details">
-                <p><strong>Type de contrat:</strong> {{ offer.get_contract_type_display }}</p>
-                {% if offer.contract_duration %}
-                <p><strong>Durée:</strong> {{ offer.contract_duration }} mois</p>
-                {% endif %}
-                <p><strong>Expérience requise:</strong> {{ offer.get_experience_required_display }}</p>
-                <p><strong>Lieu:</strong> {{ offer.work_location }}</p>
-                <p><strong>Salaire:</strong> {{ offer.salary_range }}</p>
-                <p><strong>Date de publication:</strong> {{ offer.publication_date|date:"d F Y" }}</p>
-                <p class="job-offer-status {% if offer.is_active %}active{% else %}inactive{% endif %}">
-                    {{ offer.is_active|yesno:"Active,Inactive" }}
-                </p>
-            </div>
-            <div class="job-offer-actions">
-                <a href="#" class="edit-offer-btn">Modifier</a>
-                <a href="#" class="view-offer-btn">Voir</a>
-                {% if offer.is_active %}
-                <a href="#" class="deactivate-offer-btn">Désactiver</a>
-                {% else %}
-                <a href="#" class="activate-offer-btn">Activer</a>
-                {% endif %}
-                <a href="#" class="delete-offer-btn" onclick="return confirm('Êtes-vous sûr de vouloir supprimer cette offre?');">Supprimer</a>
-            </div>
-        </div>
+            {% include "job_finder/components/offer_card.html" with offer=offer user_type="agency" show_actions=True %}
         {% endfor %}
     </div>
     {% elif search_query or active_filters %}

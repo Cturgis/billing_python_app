@@ -1,0 +1,89 @@
+{% load static %}
+
+<div class="offer-card {% if user_type %}offer-card-{{ user_type }}{% endif %}"
+     {% if user_type == 'jobseeker' %}
+     onclick="window.location='{% url 'job_finder:view_job_offer' offer.id %}'"
+     {% endif %}
+>
+
+    <div class="offer-card-header">
+        <h3 class="offer-card-title">{{ offer.title }}</h3>
+
+        {% if user_type != 'jobseeker' %}
+        <div class="offer-card-info">
+            <span class="offer-card-reference">Réf: {{ offer.reference }}</span>
+
+            {% if offer.is_active %}
+            <span class="offer-card-status active" title="Offre active"></span>
+            {% else %}
+            <span class="offer-card-status inactive" title="Offre inactive"></span>
+            {% endif %}
+        </div>
+        {% endif %}
+    </div>
+
+    <div class="offer-card-body">
+        <div class="offer-card-tags">
+            <span class="offer-card-tag contract-type">{{ offer.get_contract_type_display }}</span>
+            {% if offer.contract_duration %}
+            <span class="offer-card-tag contract-duration">{{ offer.contract_duration }} mois</span>
+            {% endif %}
+            <span class="offer-card-tag experience">{{ offer.get_experience_required_display }}</span>
+        </div>
+
+        <div class="offer-card-details">
+            <p class="offer-card-location">
+                <i class="location-icon">📍</i>
+                {{ offer.work_location }}
+            </p>
+
+            <p class="offer-card-salary">
+                <i class="salary-icon">💰</i>
+                {{ offer.salary_range }}
+            </p>
+
+            <p class="offer-card-date">
+                <i class="date-icon">📅</i>
+                {{ offer.publication_date|date:"d F Y" }}
+            </p>
+
+            {% if user_type == 'admin' %}
+            <div class="offer-card-agency-info">
+                <p class="offer-card-agency-name">
+                    <i class="agency-icon">🏢</i>
+                    <strong>Agence:</strong> {{ offer.agency.name }}
+                </p>
+                <p class="offer-card-agency-id">
+                    <i class="id-icon">🆔</i>
+                    <strong>ID:</strong> {{ offer.agency.id }}
+                </p>
+            </div>
+            {% endif %}
+        </div>
+    </div>
+
+    {% if show_actions %}
+    <div class="offer-card-actions">
+        {% if user_type == 'jobseeker' %}
+            <a href="#" class="view-offer-btn">Voir le détail</a>
+        {% elif user_type == 'agency' %}
+            <a href="#" class="edit-offer-btn">Modifier</a>
+            <a href="#" class="view-offer-btn">Voir</a>
+            {% if offer.is_active %}
+                <a href="#" class="deactivate-offer-btn">Désactiver</a>
+            {% else %}
+                <a href="#" class="activate-offer-btn">Activer</a>
+            {% endif %}
+            <a href="#" class="delete-offer-btn"
+                onclick="return confirm('Êtes-vous sûr de vouloir supprimer cette offre?');">Supprimer</a>
+        {% elif user_type == 'admin' %}
+            <a href="#" class="view-offer-btn">Voir</a>
+            {% if offer.is_active %}
+                <a href="#" class="deactivate-offer-btn">Désactiver</a>
+            { % else %}
+                <a href="#" class="activate-offer-btn">Activer</a>
+            {% endif %}
+        {% endif %}
+    </div>
+    {% endif %}
+</div>
