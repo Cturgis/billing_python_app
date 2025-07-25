@@ -1,0 +1,153 @@
+{% extends "base.html" %}
+{% load static %}
+{% load widget_tweaks %}
+
+{% block title %}Créer une offre d'emploi - JobFinder{% endblock %}
+
+{% block content %}
+{% include "job_finder/header.html" %}
+<link rel="stylesheet" href="{% static 'job_finder_form.css' %}">
+<div class="job-form-container">
+    <div class="job-form-card">
+        <div class="agency-offers-header">
+            <h1>Créer une offre d'emploi</h1>
+            <a href="{% url 'job_finder:agency_offers' %}" class="btn-back" title="Retour aux offres">&#8592;</a>
+        </div>
+
+        {% if messages %}
+        <div class="messages">
+            {% for message in messages %}
+            <div class="job-form-message {{ message.tags }}">{{ message }}</div>
+            {% endfor %}
+        </div>
+        {% endif %}
+
+        <form method="post" novalidate class="job-form">
+            {% csrf_token %}
+
+            {% if form.non_field_errors %}
+            <div class="form-errors">
+                {% for error in form.non_field_errors %}
+                <p class="job-form-error">{{ error }}</p>
+                {% endfor %}
+            </div>
+            {% endif %}
+
+            <div class="job-form-group">
+                <label for="{{ form.title.id_for_label }}">{{ form.title.label }}</label>
+                {{ form.title|add_class:"job-form-input" }}
+                {% if form.title.help_text %}
+                <span class="job-form-help-text">{{ form.title.help_text }}</span>
+                {% endif %}
+                {% if form.title.errors %}
+                {% for error in form.title.errors %}
+                <p class="job-form-error">{{ error }}</p>
+                {% endfor %}
+                {% endif %}
+            </div>
+
+            <div class="job-form-row">
+                <div class="job-form-group">
+                    <label for="{{ form.contract_type.id_for_label }}">{{ form.contract_type.label }}</label>
+                    {{ form.contract_type|add_class:"job-form-select" }}
+                    {% if form.contract_type.help_text %}
+                    <span class="job-form-help-text">{{ form.contract_type.help_text }}</span>
+                    {% endif %}
+                    {% if form.contract_type.errors %}
+                    {% for error in form.contract_type.errors %}
+                    <p class="job-form-error">{{ error }}</p>
+                    {% endfor %}
+                    {% endif %}
+                </div>
+
+                <div class="job-form-group">
+                    <label for="{{ form.contract_duration.id_for_label }}">{{ form.contract_duration.label }}</label>
+                    {{ form.contract_duration|add_class:"job-form-input" }}
+                    {% if form.contract_duration.help_text %}
+                    <span class="job-form-help-text">{{ form.contract_duration.help_text }}</span>
+                    {% endif %}
+                    {% if form.contract_duration.errors %}
+                    {% for error in form.contract_duration.errors %}
+                    <p class="job-form-error">{{ error }}</p>
+                    {% endfor %}
+                    {% endif %}
+                </div>
+            </div>
+
+            <div class="job-form-row">
+                <div class="job-form-group">
+                    <label for="{{ form.experience_required.id_for_label }}">{{ form.experience_required.label }}</label>
+                    {{ form.experience_required|add_class:"job-form-select" }}
+                    {% if form.experience_required.help_text %}
+                    <span class="job-form-help-text">{{ form.experience_required.help_text }}</span>
+                    {% endif %}
+                    {% if form.experience_required.errors %}
+                    {% for error in form.experience_required.errors %}
+                    <p class="job-form-error">{{ error }}</p>
+                    {% endfor %}
+                    {% endif %}
+                </div>
+
+                <div class="job-form-group">
+                    <label for="{{ form.location.id_for_label }}">{{ form.location.label }}</label>
+                    {{ form.location|add_class:"job-form-input" }}
+                    {% if form.location.help_text %}
+                    <span class="job-form-help-text">{{ form.location.help_text }}</span>
+                    {% endif %}
+                    {% if form.location.errors %}
+                    {% for error in form.location.errors %}
+                    <p class="job-form-error">{{ error }}</p>
+                    {% endfor %}
+                    {% endif %}
+                </div>
+            </div>
+
+            <div class="job-form-row">
+                <div class="job-form-group">
+                    <label for="{{ form.min_salary.id_for_label }}">{{ form.min_salary.label }}</label>
+                    {{ form.min_salary|add_class:"job-form-input" }}
+                    {% if form.min_salary.help_text %}
+                    <span class="job-form-help-text">{{ form.min_salary.help_text }}</span>
+                    {% endif %}
+                    {% if form.min_salary.errors %}
+                    {% for error in form.min_salary.errors %}
+                    <p class="job-form-error">{{ error }}</p>
+                    {% endfor %}
+                    {% endif %}
+                </div>
+
+                <div class="job-form-group">
+                    <label for="{{ form.max_salary.id_for_label }}">{{ form.max_salary.label }}</label>
+                    {{ form.max_salary|add_class:"job-form-input" }}
+                    {% if form.max_salary.help_text %}
+                    <span class="job-form-help-text">{{ form.max_salary.help_text }}</span>
+                    {% endif %}
+                    {% if form.max_salary.errors %}
+                    {% for error in form.max_salary.errors %}
+                    <p class="job-form-error">{{ error }}</p>
+                    {% endfor %}
+                    {% endif %}
+                </div>
+            </div>
+
+            <div class="job-form-group">
+                <label for="{{ form.description.id_for_label }}">{{ form.description.label }}</label>
+                {{ form.description|add_class:"job-form-textarea"|attr:"rows:8" }}
+                {% if form.description.help_text %}
+                <span class="job-form-help-text">{{ form.description.help_text }}</span>
+                {% endif %}
+                {% if form.description.errors %}
+                {% for error in form.description.errors %}
+                <p class="job-form-error">{{ error }}</p>
+                {% endfor %}
+                {% endif %}
+            </div>
+
+            <div class="job-form-actions">
+                <a href="{% url 'job_finder:agency_offers' %}" class="btn-cancel">Annuler</a>
+                <button type="submit" class="job-form-submit-btn">Publier l'offre</button>
+            </div>
+        </form>
+    </div>
+</div>
+{% endblock %}

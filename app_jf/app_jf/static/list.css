@@ -1,0 +1,341 @@
+.list-container {
+    width: 100%;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 1rem;
+}
+
+.list-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1.5rem;
+    padding-bottom: 0.75rem;
+    border-bottom: 1px solid #e5e7eb;
+}
+
+.list-title {
+    font-size: 1.5rem;
+    font-weight: 600;
+    color: #1e293b;
+    margin: 0;
+}
+
+.list-actions {
+    display: flex;
+    gap: 0.75rem;
+    align-items: center;
+}
+
+.list-btn {
+    padding: 0.5rem 1rem;
+    border-radius: 6px;
+    font-weight: 500;
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    transition: all 0.2s ease;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.list-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 3px 6px rgba(0, 0, 0, 0.15);
+}
+
+.list-btn-primary {
+    background-color: #3b82f6;
+    color: white;
+}
+
+.list-btn-secondary {
+    background-color: #6b7280;
+    color: white;
+}
+
+.list-btn-success {
+    background-color: #10b981;
+    color: white;
+}
+
+.list-btn-danger {
+    background-color: #ef4444;
+    color: white;
+}
+
+.list-btn-warning {
+    background-color: #f59e0b;
+    color: white;
+}
+
+/* Grille responsive pour les cartes */
+.list-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 1.5rem;
+    margin-bottom: 2rem;
+}
+
+/* Style de carte standard */
+.list-card {
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+    padding: 1.25rem;
+    transition: all 0.2s ease;
+    border: 1px solid #eaeaea;
+    position: relative;
+}
+
+.list-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12);
+    border-color: #d0d0d0;
+}
+
+/* En-tête de carte avec titre et badge */
+.list-card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 1rem;
+    padding-bottom: 0.5rem;
+    border-bottom: 1px solid #eee;
+}
+
+.list-card-title {
+    margin: 0;
+    color: #1e293b;
+    font-size: 1.1rem;
+    font-weight: 600;
+}
+
+.list-card-badge {
+    font-size: 0.75rem;
+    padding: 0.2rem 0.5rem;
+    border-radius: 4px;
+    background-color: #f3f4f6;
+    color: #4b5563;
+}
+
+/* Contenu de la carte */
+.list-card-content {
+    margin-bottom: 1rem;
+}
+
+.list-card-row {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 0.5rem;
+    font-size: 0.9rem;
+    color: #4b5563;
+}
+
+.list-card-label {
+    font-weight: 500;
+    color: #6b7280;
+}
+
+.list-card-value {
+    text-align: right;
+}
+
+/* Actions de la carte */
+.list-card-actions {
+    display: flex;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+    margin-top: 1rem;
+    padding-top: 0.75rem;
+    border-top: 1px solid #eee;
+    justify-content: flex-end;
+}
+
+/* Styles pour les indicateurs de statut */
+.list-status {
+    display: inline-block;
+    padding: 0.2rem 0.6rem;
+    border-radius: 20px;
+    font-size: 0.75rem;
+    font-weight: 500;
+    text-align: center;
+}
+
+.list-status-active {
+    background-color: #dcfce7;
+    color: #166534;
+}
+
+.list-status-inactive {
+    background-color: #fee2e2;
+    color: #991b1b;
+}
+
+.list-status-pending {
+    background-color: #fef3c7;
+    color: #92400e;
+}
+
+/* Message quand la liste est vide */
+.list-empty {
+    padding: 3rem;
+    text-align: center;
+    background-color: #f9fafb;
+    border-radius: 8px;
+    border: 1px dashed #d1d5db;
+    color: #6b7280;
+}
+
+.list-empty-title {
+    font-size: 1.25rem;
+    color: #4b5563;
+    margin-bottom: 1rem;
+}
+
+.list-empty-action {
+    margin-top: 1rem;
+}
+
+.list-empty-action a {
+    color: #3b82f6;
+    text-decoration: none;
+    font-weight: 500;
+}
+
+.list-empty-action a:hover {
+    text-decoration: underline;
+}
+
+/* Affichage en tableau */
+.list-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 2rem;
+}
+
+.list-table th {
+    background-color: #f8fafc;
+    padding: 0.75rem 1rem;
+    text-align: left;
+    font-weight: 600;
+    color: #475569;
+    border-bottom: 2px solid #e2e8f0;
+    white-space: nowrap;
+}
+
+.list-table td {
+    padding: 0.75rem 1rem;
+    border-bottom: 1px solid #e2e8f0;
+    vertical-align: middle;
+}
+
+.list-table tr:hover {
+    background-color: #f9fafb;
+}
+
+/* Pagination */
+.list-pagination {
+    display: flex;
+    justify-content: center;
+    margin: 2rem 0;
+    gap: 0.25rem;
+}
+
+.list-pagination-item {
+    display: inline-block;
+    padding: 0.5rem 0.75rem;
+    border-radius: 4px;
+    text-decoration: none;
+    color: #4b5563;
+    font-size: 0.9rem;
+    transition: all 0.2s ease;
+}
+
+.list-pagination-item:hover {
+    background-color: #f3f4f6;
+}
+
+.list-pagination-item.active {
+    background-color: #3b82f6;
+    color: white;
+}
+
+.list-pagination-item.disabled {
+    opacity: 0.5;
+    pointer-events: none;
+}
+
+/* Filtres et recherche */
+.list-filters {
+    margin-bottom: 1.5rem;
+    padding: 1rem;
+    background-color: #f8fafc;
+    border-radius: 8px;
+    border: 1px solid #e2e8f0;
+}
+
+.list-filters-form {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+    align-items: flex-end;
+}
+
+.list-filter-group {
+    flex: 1;
+    min-width: 200px;
+}
+
+.list-filter-label {
+    display: block;
+    font-size: 0.85rem;
+    margin-bottom: 0.25rem;
+    color: #4b5563;
+}
+
+.list-filter-input {
+    width: 100%;
+    padding: 0.5rem;
+    border: 1px solid #d1d5db;
+    border-radius: 4px;
+    font-size: 0.9rem;
+}
+
+.list-filter-actions {
+    display: flex;
+    gap: 0.5rem;
+}
+
+/* Responsive styles */
+@media (max-width: 768px) {
+    .list-header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 1rem;
+    }
+
+    .list-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .list-card-row {
+        flex-direction: column;
+        margin-bottom: 0.75rem;
+    }
+
+    .list-card-value {
+        text-align: left;
+        margin-top: 0.25rem;
+    }
+
+    .list-table {
+        display: block;
+        overflow-x: auto;
+    }
+
+    .list-filters-form {
+        flex-direction: column;
+        gap: 0.75rem;
+    }
+}

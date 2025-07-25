@@ -4,6 +4,7 @@
 
 {% block content %}
 
+<link rel="stylesheet" href="{% static 'header.css' %}">
 <header class="header">
     <div class="logo">
         <h1>🔍 JobFinder</h1>
@@ -17,7 +18,7 @@
         <a href="#" class="nav-item">Entreprises</a>
         {% elif user.groups.all.0.name == 'Agency' %}
         <a href="{% url 'job_finder:dashboard' %}" class="nav-item">Dashboard</a>
-        <a href="#" class="nav-item">Mes offres</a>
+        <a href="{% url 'job_finder:agency_offers' %}" class="nav-item">Mes offres</a>
         <a href="#" class="nav-item">Publier une offre</a>
         <a href="#" class="nav-item">Candidatures reçues</a>
         {% elif user.groups.all.0.name == 'JobSeeker' %}
@@ -47,4 +48,3 @@
     </div>
 </header>
 {% endblock %}
-
