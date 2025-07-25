@@ -1,0 +1,50 @@
+{% extends "base.html" %}
+{% load static %}
+{% load widget_tweaks %}
+
+{% block content %}
+
+<header class="header">
+    <div class="logo">
+        <h1>🔍 JobFinder</h1>
+    </div>
+
+    <nav class="main-nav">
+        {% if user.groups.all.0.name == 'Admin' %}
+        <a href="{% url 'job_finder:dashboard' %}" class="nav-item">Dashboard</a>
+        <a href="#" class="nav-item">Utilisateurs</a>
+        <a href="#" class="nav-item">Offres d'emploi</a>
+        <a href="#" class="nav-item">Rapports</a>
+        {% elif user.groups.all.0.name == 'Agency' %}
+        <a href="{% url 'job_finder:dashboard' %}" class="nav-item">Dashboard</a>
+        <a href="#" class="nav-item">Mes offres</a>
+        <a href="#" class="nav-item">Publier une offre</a>
+        <a href="#" class="nav-item">Candidatures reçues</a>
+        {% elif user.groups.all.0.name == 'JobSeeker' %}
+        <a href="{% url 'job_finder:dashboard' %}" class="nav-item">Dashboard</a>
+        <a href="#" class="nav-item">Rechercher des offres</a>
+        <a href="#" class="nav-item">Mes candidatures</a>
+        <a href="#" class="nav-item">Mes documents</a>
+        {% endif %}
+    </nav>
+
+    <div class="user-menu">
+        <div class="dropdown">
+            <button class="dropdown-btn">
+                {{ user.get_full_name|default:user.username }}
+                <span class="user-role">
+                        {% if user.groups.all.0.name %}
+                            ({{ user.groups.all.0.name }})
+                        {% endif %}
+                    </span>
+            </button>
+            <div class="dropdown-content">
+                <a href="#">Mon profil</a>
+                <a href="#">Paramètres</a>
+                <a href="{% url 'logout' %}">Déconnexion</a>
+            </div>
+        </div>
+    </div>
+</header>
+{% endblock %}
+

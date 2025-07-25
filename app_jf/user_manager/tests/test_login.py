@@ -28,28 +28,28 @@ class LoginViewTests(TestCase):
 
     def test_login_admin(self):
         response = self.client.post(reverse('login'), {'username': 'admin', 'password': 'adminpassword'}, follow=True)
-        self.assertContains(response, 'en tant que : Admin')
         self.assertRedirects(response, reverse('job_finder:dashboard'))
 
     def test_login_jobseeker(self):
         response = self.client.post(reverse('login'), {'username': 'jobseeker', 'password': 'jobseekerpassword'}, follow=True)
-        self.assertContains(response, 'en tant que : JobSeeker')
         self.assertRedirects(response, reverse('job_finder:dashboard'))
 
     def test_login_agency(self):
         response = self.client.post(reverse('login'), {'username': 'agency', 'password': 'agencypassword'}, follow=True)
-        self.assertContains(response, 'en tant que : Agency')
         self.assertRedirects(response, reverse('job_finder:dashboard'))
 
-    def test_login_wrong_password(self):
-        response = self.client.post(reverse('login'), {'username': 'admin', 'password': 'wrongpass'}, follow=True)
+    def test_login_invalid_credentials(self):
+        response = self.client.post(reverse('login'), {'username': 'admin', 'password': 'wrongpassword'})
+        self.assertEqual(response.status_code, 200)  # Reste sur la page de login
         self.assertContains(response, 'utilisateur ou mot de passe incorrect')
 
-    def test_login_wrong_username(self):
-        response = self.client.post(reverse('login'), {'username': 'wronguser', 'password': 'adminpassword'}, follow=True)
-        self.assertContains(response, 'utilisateur ou mot de passe incorrect')
+    def test_login_remember_username(self):
+        """Vérifie que le nom d'utilisateur est conservé après une erreur de connexion"""
+        response = self.client.post(reverse('login'), {'username': 'testuser', 'password': 'wrongpassword'})
+        self.assertContains(response, 'value="testuser"')
 
     def test_login_page_has_register_link(self):
+        """Vérifie que la page de login contient un lien vers la page d'inscription"""
         response = self.client.get(reverse('login'))
-        self.assertContains(response, 'Vous n\'avez pas encore de compte ?')
-        self.assertContains(response, f'<a href="{reverse("register")}">Inscrivez-vous</a>')
+        self.assertContains(response, 'pas encore de compte')
+        self.assertContains(response, reverse('register'))

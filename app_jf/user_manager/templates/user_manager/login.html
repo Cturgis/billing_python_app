@@ -4,35 +4,35 @@
 
 {% block content %}
 <link rel="stylesheet" href="{% static 'register.css' %}">
-<div class="login-form-outer-container">
-    <div class="login-form-card">
-        <h2 class="login-form-title">Connexion</h2>
+<div class="register-form-outer-container">
+    <div class="register-form-card">
+        <h2 class="register-form-title">Connexion</h2>
         {% if messages %}
         {% for message in messages %}
-        <div class="login-form-message alert-{{ message.tags }}">{{ message }}</div>
+        <div class="register-form-message alert-{{ message.tags }}">{{ message }}</div>
         {% endfor %}
         {% endif %}
         <form method="post" novalidate>
             {% csrf_token %}
             {{ form.non_field_errors }}
-            <div class="login-form-group">
+            <div class="register-form-group">
                 {{ form.username.label_tag }}
-                {{ form.username|add_class:'login-form-input' }}
+                {{ form.username|add_class:'register-form-input' }}
                 {% for error in form.username.errors %}
-                <div class="login-form-error">{{ error }}</div>
+                <div class="register-form-error">{{ error }}</div>
                 {% endfor %}
             </div>
-            <div class="login-form-group">
+            <div class="register-form-group">
                 {{ form.password.label_tag }}
-                {{ form.password|add_class:'login-form-input' }}
+                {{ form.password|add_class:'register-form-input' }}
                 {% for error in form.password.errors %}
-                <div class="login-form-error">{{ error }}</div>
+                <div class="register-form-error">{{ error }}</div>
                 {% endfor %}
             </div>
-            <button type="submit" class="login-form-submit-btn">Se connecter</button>
+            <button type="submit" class="register-form-submit-btn">Se connecter</button>
         </form>
 
-        <div class="login-form-register-link">
+        <div class="register-form-links">
             Vous n'avez pas encore de compte ? <a href="{% url 'register' %}">Inscrivez-vous</a>
         </div>
     </div>
